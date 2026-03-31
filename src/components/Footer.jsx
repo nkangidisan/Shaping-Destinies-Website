@@ -60,26 +60,33 @@ const Footer = () => {
     <footer className="site-footer">
       <div className="container site-footer__grid">
         <div className="site-footer__brand">
-          <img src="/dist/wp-content/icon.png" alt="Wonder Christian Centre icon" />
+          <img
+            src="/dist/wp-content/icon.png"
+            alt="Wonder Christian Centre icon"
+            width="68"
+            height="68"
+            loading="lazy"
+            decoding="async"
+          />
           <h3>Wonder Christian Centre</h3>
           <p>
             A Christ-centered ministry committed to shaping destinies through the preaching of the
             Word of His Grace and Faith, and the ministry of miracles, signs and wonders.
           </p>
           <div className="site-footer__socials">
-            <a href="https://www.facebook.com/wccug" aria-label="Facebook">
+            <a href="https://www.facebook.com/wccug" aria-label="Facebook" target="_blank" rel="noreferrer">
               <FooterSocialIcon type="facebook" />
             </a>
-            <a href="https://www.tiktok.com/@wccug?_r=1&_t=ZS-956s5H5QE0z" aria-label="TikTok">
+            <a href="https://www.tiktok.com/@wccug?_r=1&_t=ZS-956s5H5QE0z" aria-label="TikTok" target="_blank" rel="noreferrer">
               <FooterSocialIcon type="tiktok" />
             </a>
-            <a href="https://youtube.com/@wccug?si=P8YJjF2mwdE4fFoR" aria-label="YouTube">
+            <a href="https://youtube.com/@wccug?si=P8YJjF2mwdE4fFoR" aria-label="YouTube" target="_blank" rel="noreferrer">
               <FooterSocialIcon type="youtube" />
             </a>
-            <a href="https://www.instagram.com/wcc" aria-label="Instagram">
+            <a href="https://www.instagram.com/wccug" aria-label="Instagram" target="_blank" rel="noreferrer">
               <FooterSocialIcon type="instagram" />
             </a>
-            <a href="https://wa.me/256707000999" aria-label="WhatsApp">
+            <a href="https://wa.me/256707000999" aria-label="WhatsApp" target="_blank" rel="noreferrer">
               <FooterSocialIcon type="whatsapp" />
             </a>
           </div>
@@ -156,9 +163,9 @@ const Footer = () => {
 
         .site-footer__grid {
           display: grid;
-          grid-template-columns: 1.35fr repeat(3, 1fr);
-          gap: 2rem;
-          padding: 5rem 0 2.5rem;
+          grid-template-columns: 1fr;
+          gap: 1.75rem;
+          padding: 4rem 0 2rem;
         }
 
         .site-footer__brand img {
@@ -195,6 +202,7 @@ const Footer = () => {
 
         .site-footer__socials {
           display: flex;
+          flex-wrap: wrap;
           gap: 0.75rem;
           margin-top: 1.5rem;
         }
@@ -244,7 +252,8 @@ const Footer = () => {
 
         .site-footer__bottom {
           display: flex;
-          align-items: center;
+          align-items: flex-start;
+          flex-direction: column;
           justify-content: space-between;
           gap: 1rem;
           padding: 1.35rem 0 2rem;
@@ -256,21 +265,31 @@ const Footer = () => {
           letter-spacing: 0.02em;
         }
 
-        @media (max-width: 1024px) {
+        @media (min-width: 681px) {
           .site-footer__grid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
           }
         }
 
-        @media (max-width: 640px) {
+        @media (min-width: 1025px) {
           .site-footer__grid {
-            grid-template-columns: 1fr;
-            padding-top: 4.25rem;
+            grid-template-columns: 1.35fr repeat(3, 1fr);
+            gap: 2rem;
+            padding: 5rem 0 2.5rem;
           }
 
           .site-footer__bottom {
-            flex-direction: column;
-            align-items: flex-start;
+            align-items: center;
+            flex-direction: row;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .site-footer__grid {
+            padding-top: 3.5rem;
+          }
+
+          .site-footer__bottom {
             padding-bottom: 1.6rem;
           }
         }

@@ -62,7 +62,7 @@ const MassEvangelism = () => {
           <Reveal>
             <section className="detail-split detail-split--feature surface-card">
               <figure className="detail-media">
-                <img src={imageSet[0]} alt="Mass evangelism" />
+                <img src={imageSet[0]} alt="Mass evangelism" loading="eager" decoding="async" />
               </figure>
               <div className="detail-copy">
                 <h2>Together we make the Difference</h2>
@@ -87,7 +87,7 @@ const MassEvangelism = () => {
                 <blockquote>“And He said to them, “Go into all the world and preach the gospel to every creature. He who believes and is baptized will be saved; but he who does not believe will be condemned. And these signs will follow those who believe: In My name they will cast out demons; they will speak with new tongues; they will take up serpents; and if they drink anything deadly, it will by no means hurt them; they will lay hands on the sick, and they will recover.” Mark 16:15-18</blockquote>
               </div>
               <figure className="detail-media detail-media--tall">
-                <img src={imageSet[1]} alt="Mass evangelism" />
+                <img src={imageSet[1]} alt="Mass evangelism" loading="lazy" decoding="async" />
               </figure>
             </section>
           </Reveal>
@@ -96,7 +96,7 @@ const MassEvangelism = () => {
             {imageSet.slice(2).map((image, index) => (
               <Reveal key={image} delay={index * 80}>
                 <figure className="detail-gallery-card surface-card">
-                  <img src={image} alt={`Mass evangelism ${index + 1}`} />
+                  <img src={image} alt={`Mass evangelism ${index + 1}`} loading="lazy" decoding="async" />
                 </figure>
               </Reveal>
             ))}
@@ -243,11 +243,13 @@ const MassEvangelism = () => {
           width: 100%;
           height: auto;
           border-radius: 1rem;
+          object-fit: contain;
+          background: rgba(255, 255, 255, 0.94);
         }
 
         .detail-media--tall img {
           min-height: 100%;
-          object-fit: cover;
+          object-fit: contain;
         }
 
         .detail-gallery-grid {

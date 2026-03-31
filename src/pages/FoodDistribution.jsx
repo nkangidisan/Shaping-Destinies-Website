@@ -63,7 +63,7 @@ const FoodDistribution = () => {
                 <p>There had been a serious lockdown where the government had ordered everyone to stay at home. In an economy where many people work hand to mouth, hunger began biting only after a few days. Though I had for a couple of years felt we needed to do something about the severe hunger in our country especially by helping children and the elderly, this phone call could not let me procrastinate anymore.</p>
               </div>
               <figure className="detail-media">
-                <img src={galleryImages[0]} alt="Food distribution" />
+                <img src={galleryImages[0]} alt="Food distribution support for families and children" loading="eager" decoding="async" />
               </figure>
             </section>
           </Reveal>
@@ -71,7 +71,7 @@ const FoodDistribution = () => {
           <Reveal delay={90}>
             <section className="detail-split detail-split--reverse surface-card">
               <figure className="detail-media">
-                <img src={galleryImages[1]} alt="Food distribution" />
+                <img src={galleryImages[1]} alt="Wonder Christian Centre food distribution outreach" loading="lazy" decoding="async" />
               </figure>
               <div className="detail-copy">
                 <p>I had been saving some money to buy a car and at that point felt it was pointless to buy that car when almost everyone in the church and our community was literally going without food for days. That’s how our food distribution program started. Over the months that followed, a great friend sent me a lot of funds that helped the church and the entire community throughout the covid season.</p>

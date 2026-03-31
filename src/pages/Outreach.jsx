@@ -87,7 +87,7 @@ const Outreach = () => {
             {galleryImages.map((image, index) => (
               <Reveal key={image} delay={(index % 4) * 70}>
                 <figure className={`outreach-gallery__item ${index % 5 === 0 ? 'is-featured' : ''}`}>
-                  <img src={image} alt={`Ambassadors of Hope ${index + 1}`} loading="lazy" />
+                  <img src={image} alt={`Ambassadors of Hope ${index + 1}`} loading="lazy" decoding="async" />
                 </figure>
               </Reveal>
             ))}

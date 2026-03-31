@@ -65,7 +65,7 @@ const WomenOfDestiny = () => {
           <div className="women-grid">
             <Reveal>
               <figure className="women-card women-card--feature surface-card">
-                <img src={womenImages[0]} alt="Women of Destiny" />
+                <img src={womenImages[0]} alt="Women of Destiny" loading="eager" decoding="async" />
               </figure>
             </Reveal>
 
@@ -81,7 +81,7 @@ const WomenOfDestiny = () => {
             {womenImages.slice(1).map((image, index) => (
               <Reveal key={image} delay={(index + 2) * 80}>
                 <figure className={`women-card surface-card ${index === 2 ? 'women-card--wide' : ''}`}>
-                  <img src={image} alt={`Women of Destiny ${index + 2}`} />
+                  <img src={image} alt={`Women of Destiny ${index + 2}`} loading="lazy" decoding="async" />
                 </figure>
               </Reveal>
             ))}

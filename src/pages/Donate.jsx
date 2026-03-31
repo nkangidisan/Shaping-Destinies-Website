@@ -1,4 +1,6 @@
 import { useEffect, useRef } from 'react'
+import FaqSection from '../components/FaqSection'
+import { seoRouteMap } from '../seo/routes'
 
 const partnershipImage = '/2024/09/AM5A2026.jpg'
 
@@ -86,7 +88,7 @@ const Donate = () => {
             <div className="partnership-rail">
               <Reveal delay={90}>
                 <figure className="partnership-image surface-card">
-                  <img src={partnershipImage} alt="Partnership" />
+                  <img src={partnershipImage} alt="Partnership" loading="lazy" decoding="async" />
                 </figure>
               </Reveal>
 
@@ -104,6 +106,8 @@ const Donate = () => {
           </div>
         </div>
       </section>
+
+      <FaqSection {...seoRouteMap['/donate'].faqSection} />
 
       <style>{`
         .partnership-page {
@@ -245,8 +249,9 @@ const Donate = () => {
           display: block;
           width: 100%;
           height: auto;
+          aspect-ratio: 4 / 5;
           border-radius: 1.1rem;
-          object-fit: contain;
+          object-fit: cover;
           background: rgba(255, 255, 255, 0.94);
         }
 
@@ -289,6 +294,14 @@ const Donate = () => {
         @media (max-width: 640px) {
           .partnership-hero__content {
             padding: 5.6rem 0 4.8rem;
+          }
+
+          .partnership-cta__actions {
+            flex-direction: column;
+          }
+
+          .partnership-cta__actions .button {
+            width: 100%;
           }
 
           .partnership-story {

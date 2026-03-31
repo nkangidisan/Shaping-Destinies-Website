@@ -62,7 +62,7 @@ const FreeMedicalOutreach = () => {
                 <p>Twice every year, we do organize a free medical camp with our major focus on children below 12 years. There have been camps where we would provide free medical care for up to 1400 Children.</p>
               </div>
               <figure className="detail-media">
-                <img src={galleryImages[0]} alt="Free medical outreach" />
+                <img src={galleryImages[0]} alt="Children receiving care at a free medical outreach" loading="eager" decoding="async" />
               </figure>
             </section>
           </Reveal>
@@ -70,7 +70,7 @@ const FreeMedicalOutreach = () => {
           <Reveal delay={90}>
             <section className="detail-split detail-split--reverse surface-card">
               <figure className="detail-media">
-                <img src={galleryImages[1]} alt="Free medical outreach" />
+                <img src={galleryImages[1]} alt="Free medical outreach support and treatment" loading="lazy" decoding="async" />
               </figure>
               <div className="detail-copy">
                 <p>Our target is children and women because of the immense need due to the many sicknesses and infections prevalent amongst them.</p>

@@ -67,7 +67,7 @@ const SchoolUniversity = () => {
                 <p>Teenage years are ‘Damascus moment years’ where if we get our children to see the Light of Christ early and plant them on the firm foundation of the truth of God’s Word, we will have helped save a generation.</p>
               </div>
               <figure className="detail-media">
-                <img src={galleryImages[0]} alt="School and University" />
+                <img src={galleryImages[0]} alt="School and university outreach gathering" loading="eager" decoding="async" />
               </figure>
             </section>
           </Reveal>
@@ -75,7 +75,7 @@ const SchoolUniversity = () => {
           <Reveal delay={90}>
             <section className="detail-split detail-split--reverse surface-card">
               <figure className="detail-media">
-                <img src={galleryImages[1]} alt="School and University" />
+                <img src={galleryImages[1]} alt="Students reached through Wonder Christian Centre outreach" loading="lazy" decoding="async" />
               </figure>
               <div className="detail-copy">
                 <p><em>But when we see the many secular concerts and all manner of immoral activities moving around our Primary Schools, High Schools and Universities here in Uganda, with celebrity artistes performing 95% naked; when you hear our children praise these for being exciting and try to model after their example, then you know we are quickly losing a generation!</em></p>
@@ -88,7 +88,7 @@ const SchoolUniversity = () => {
             {galleryImages.slice(2).map((image, index) => (
               <Reveal key={image} delay={index * 80}>
                 <figure className="detail-gallery-card surface-card">
-                  <img src={image} alt={`School and University ${index + 1}`} />
+                  <img src={image} alt={`School and university outreach ${index + 1}`} loading="lazy" decoding="async" />
                 </figure>
               </Reveal>
             ))}

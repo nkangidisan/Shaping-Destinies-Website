@@ -13,9 +13,15 @@ const leaderCopy = [
   'Having come from a very humble background, he believes everyone and anyone can become the best that God predestined them to be.',
   'Benjamin Kiconco was called of God at the age of 17, stepped out into ministry at 19 and later founded Wonder Christian Centre (Isaiah 32) at 23 years of age.',
   "His mission is to Shape the Destinies of God's people through the preaching of the Word of His Grace and Faith and the ministry of Miracles, Signs and Wonders.",
-  "Having founded Wonder Christian Centre (a church that started under an avocado tree in 2011), he serves as her Senior Pastor while not neglecting his commitment to empowering God's people (especially youth & leaders) by helping them discover and fully maximize their gifts and callings in order to live a life of purpose and walk in their God-ordained destinies.",
-  "He, by the grace of God and the help of partners and friends, travels the nations of the earth speaking to congregations, motivating corporate organization employees and holding crusades and conferences. He has tirelessly and consistently demonstrated commitment to making a difference in people's lives, one person at a time! It's true that we were called to extend the Grace of Christ to others just as it was extended to us! We were called to shape the destines of men.",
-  'Benjamin Kiconco lives in the outskirts of Kampala-Uganda with his precious family.',
+  "Having founded Wonder Christian Centre, a church that started under an avocado tree in 2011, he serves as Senior Pastor while remaining deeply committed to empowering God's people, especially youth and leaders, to live purposeful lives.",
+  'By the grace of God and with the help of partners and friends, he travels the nations speaking to congregations, motivating organizations, and leading crusades and conferences that leave a lasting spiritual impact.',
+  'Benjamin Kiconco lives in the outskirts of Kampala, Uganda with his precious family.',
+]
+
+const leaderStats = [
+  { value: '17', label: 'Called into ministry' },
+  { value: '19', label: 'Stepped out in faith' },
+  { value: '2011', label: 'Church beginnings' },
 ]
 
 function useReveal() {
@@ -59,29 +65,57 @@ const TeamLeader = () => {
       <section className="team-leader-hero">
         <div className="team-leader-hero__bg" />
         <div className="team-leader-hero__overlay" />
+        <div className="team-leader-hero__glow team-leader-hero__glow--one" />
+        <div className="team-leader-hero__glow team-leader-hero__glow--two" />
         <div className="container team-leader-hero__content">
           <Reveal className="team-leader-hero__copy">
             <span className="eyebrow">Our Team Leader</span>
             <h1>Pastor Benjamin Kiconco</h1>
             <p>
-              Pastor Benjamin Kiconco travels around the world reaching out to God&apos;s people with the proclamation of Christ&apos;s Word of Faith and Grace.
+              A life of conviction, service, and global ministry shaped by faith, grace, and a
+              deep commitment to seeing people step into purpose.
             </p>
+          </Reveal>
+
+          <Reveal delay={120}>
+            <div className="team-leader-hero__stats surface-card">
+              {leaderStats.map((item) => (
+                <div key={item.label}>
+                  <strong>{item.value}</strong>
+                  <span>{item.label}</span>
+                </div>
+              ))}
+            </div>
           </Reveal>
         </div>
       </section>
 
       <section className="section">
         <div className="container">
-          <div className="team-leader-gallery-grid">
-            <Reveal>
-              <figure className="team-leader-gallery__item team-leader-gallery__item--hero surface-card">
-                <img src={leaderImages[0]} alt="Pastor Benjamin Kiconco" />
+          <div className="team-leader-feature">
+            <Reveal className="team-leader-feature__visuals">
+              <figure className="team-leader-media team-leader-media--portrait surface-card">
+                <img src={leaderImages[0]} alt="Pastor Benjamin Kiconco portrait" loading="eager" decoding="async" />
+              </figure>
+              <figure className="team-leader-media team-leader-media--floating surface-card">
+                <img src={leaderImages[1]} alt="Pastor Benjamin Kiconco ministry portrait" loading="lazy" decoding="async" />
               </figure>
             </Reveal>
-            <Reveal delay={90}>
-              <figure className="team-leader-gallery__item surface-card">
-                <img src={leaderImages[1]} alt="Pastor Benjamin Kiconco" />
-              </figure>
+
+            <Reveal delay={100}>
+              <article className="team-leader-feature__card surface-card">
+                <span className="eyebrow">Leadership Focus</span>
+                <h2>Preaching Christ clearly while raising people with vision.</h2>
+                <p>
+                  Pastor Benjamin Kiconco&apos;s leadership is marked by spiritual depth, bold faith,
+                  and a steady commitment to helping people discover their gifts, purpose, and
+                  God-ordained destiny.
+                </p>
+                <p>
+                  From church gatherings to conferences and crusades, the work reflects both
+                  pastoral care and movement-building leadership.
+                </p>
+              </article>
             </Reveal>
           </div>
         </div>
@@ -89,9 +123,10 @@ const TeamLeader = () => {
 
       <section className="section section-cream">
         <div className="container">
-          <div className="team-leader-layout">
+          <div className="team-leader-story-layout">
             <Reveal>
               <article className="team-leader-story surface-card">
+                <span className="eyebrow">His Journey</span>
                 <div className="team-leader-story__copy">
                   {leaderCopy.map((paragraph) => (
                     <p key={paragraph}>{paragraph}</p>
@@ -100,11 +135,11 @@ const TeamLeader = () => {
               </article>
             </Reveal>
 
-            <div className="team-leader-gallery">
+            <div className="team-leader-collage">
               {leaderImages.slice(2).map((image, index) => (
                 <Reveal key={image} delay={index * 90}>
-                  <figure className={`team-leader-gallery__item surface-card ${index === 0 ? 'is-wide' : ''}`}>
-                    <img src={image} alt={`Pastor Benjamin Kiconco ${index + 3}`} />
+                  <figure className={`team-leader-media surface-card ${index === 0 ? 'team-leader-media--wide' : 'team-leader-media--stack'}`}>
+                    <img src={image} alt={`Pastor Benjamin Kiconco ministry moment ${index + 1}`} loading="lazy" decoding="async" />
                   </figure>
                 </Reveal>
               ))}
@@ -127,14 +162,15 @@ const TeamLeader = () => {
         }
 
         .team-leader-hero__bg,
-        .team-leader-hero__overlay {
+        .team-leader-hero__overlay,
+        .team-leader-hero__glow {
           position: absolute;
           inset: 0;
         }
 
         .team-leader-hero__bg {
           background:
-            radial-gradient(circle at 18% 24%, rgba(181, 214, 58, 0.16), transparent 18%),
+            radial-gradient(circle at 18% 24%, rgba(181, 214, 58, 0.18), transparent 18%),
             radial-gradient(circle at 76% 22%, rgba(255, 255, 255, 0.08), transparent 18%),
             linear-gradient(135deg, #06162c 0%, #0a2142 50%, #143c74 100%);
           transform: scale(1.04);
@@ -143,14 +179,38 @@ const TeamLeader = () => {
 
         .team-leader-hero__overlay {
           background:
-            radial-gradient(circle at 18% 24%, rgba(181, 214, 58, 0.16), transparent 18%),
-            linear-gradient(115deg, rgba(3, 12, 28, 0.84), rgba(8, 29, 57, 0.44) 48%, rgba(8, 29, 57, 0.82));
+            linear-gradient(115deg, rgba(3, 12, 28, 0.84), rgba(8, 29, 57, 0.42) 48%, rgba(8, 29, 57, 0.82)),
+            radial-gradient(circle at 18% 24%, rgba(181, 214, 58, 0.1), transparent 20%);
+        }
+
+        .team-leader-hero__glow {
+          pointer-events: none;
+        }
+
+        .team-leader-hero__glow--one {
+          inset: 16% auto auto 66%;
+          width: 14rem;
+          height: 14rem;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(181, 214, 58, 0.24), transparent 68%);
+          animation: leaderPulse 10s ease-in-out infinite;
+        }
+
+        .team-leader-hero__glow--two {
+          inset: auto auto -8% -6%;
+          width: 18rem;
+          height: 18rem;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(255, 255, 255, 0.08), transparent 68%);
+          animation: leaderFloat 15s ease-in-out infinite;
         }
 
         .team-leader-hero__content {
           position: relative;
           z-index: 1;
-          padding: 6.75rem 0 5.5rem;
+          display: grid;
+          gap: 1.2rem;
+          padding: 5.5rem 0 4.8rem;
         }
 
         .team-leader-hero__copy {
@@ -169,7 +229,7 @@ const TeamLeader = () => {
         .team-leader-hero__copy h1 {
           margin: 1rem 0;
           font-family: 'Outfit', sans-serif;
-          font-size: clamp(3.2rem, 6vw, 5.8rem);
+          font-size: clamp(2.9rem, 10vw, 5.8rem);
           line-height: 0.94;
           letter-spacing: -0.06em;
           color: white;
@@ -177,115 +237,261 @@ const TeamLeader = () => {
 
         .team-leader-hero__copy p {
           margin: 0;
-          font-size: 1.08rem;
-          line-height: 1.9;
+          font-size: 1rem;
+          line-height: 1.85;
           color: rgba(255, 255, 255, 0.84);
         }
 
-        .team-leader-gallery-grid {
+        .team-leader-hero__stats {
           display: grid;
-          grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+          grid-template-columns: 1fr;
+          gap: 0.8rem;
+          padding: 1.2rem;
+          border: 1px solid rgba(255, 255, 255, 0.14);
+          background: rgba(255, 255, 255, 0.08);
+          backdrop-filter: blur(14px);
+        }
+
+        .team-leader-hero__stats div {
+          display: grid;
+          gap: 0.25rem;
+          padding: 0.7rem 0;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .team-leader-hero__stats div:last-child {
+          border-bottom: 0;
+        }
+
+        .team-leader-hero__stats strong {
+          font-family: 'Outfit', sans-serif;
+          font-size: 1.8rem;
+          color: white;
+        }
+
+        .team-leader-hero__stats span {
+          color: rgba(255, 255, 255, 0.76);
+          font-size: 0.94rem;
+        }
+
+        .team-leader-feature,
+        .team-leader-story-layout {
+          display: grid;
           gap: 1.25rem;
-          align-items: stretch;
         }
 
-        .team-leader-layout {
-          display: grid;
-          grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
-          gap: 1.5rem;
-          align-items: start;
+        .team-leader-feature__visuals {
+          position: relative;
+          min-height: 20rem;
         }
 
-        .team-leader-story {
-          padding: 2.2rem;
-          border: 1px solid rgba(16, 58, 113, 0.08);
-          background:
-            radial-gradient(circle at top right, rgba(181, 214, 58, 0.12), transparent 22%),
-            rgba(255, 255, 255, 0.97);
-        }
-
-        .team-leader-story__copy p {
-          margin: 0 0 1rem;
-          font-size: 1.03rem;
-          line-height: 1.95;
-          color: var(--color-text);
-        }
-
-        .team-leader-story__copy p:last-child {
-          margin-bottom: 0;
-        }
-
-        .team-leader-gallery {
-          display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 1rem;
-        }
-
-        .team-leader-gallery__item {
+        .team-leader-media {
+          position: relative;
+          overflow: hidden;
           margin: 0;
-          padding: 0.85rem;
-          border-radius: 1.55rem;
+          padding: 0.75rem;
           border: 1px solid rgba(16, 58, 113, 0.08);
-          background: rgba(255, 255, 255, 0.97);
+          background: rgba(255, 255, 255, 0.98);
           box-shadow: 0 24px 60px rgba(8, 29, 57, 0.08);
           transition: transform var(--transition), box-shadow var(--transition);
         }
 
-        .team-leader-gallery__item:hover {
+        .team-leader-media::after {
+          content: '';
+          position: absolute;
+          inset: auto -10% -22% auto;
+          width: 9rem;
+          height: 9rem;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(181, 214, 58, 0.18), transparent 70%);
+          pointer-events: none;
+        }
+
+        .team-leader-media:hover {
           transform: translateY(-8px);
           box-shadow: 0 28px 80px rgba(8, 29, 57, 0.12);
         }
 
-        .team-leader-gallery__item--hero {
-          min-height: 36rem;
-        }
-
-        .team-leader-gallery__item.is-wide {
-          grid-column: span 2;
-          padding: 1rem;
-        }
-
-        .team-leader-gallery__item img {
-          display: block;
+        .team-leader-media img {
           width: 100%;
           height: 100%;
-          object-fit: contain;
           border-radius: 1rem;
-          background: linear-gradient(135deg, rgba(248, 242, 231, 0.8), rgba(255, 255, 255, 0.96));
+          object-fit: cover;
+          transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        @media (max-width: 980px) {
-          .team-leader-gallery-grid,
-          .team-leader-layout,
-          .team-leader-gallery {
-            grid-template-columns: 1fr;
+        .team-leader-media:hover img {
+          transform: scale(1.05);
+        }
+
+        .team-leader-media--portrait {
+          min-height: 23rem;
+        }
+
+        .team-leader-media--floating {
+          position: absolute;
+          right: 0;
+          bottom: -1rem;
+          width: min(56%, 15rem);
+          min-height: 12rem;
+          box-shadow: 0 30px 80px rgba(8, 29, 57, 0.16);
+          animation: leaderCardFloat 12s ease-in-out infinite;
+        }
+
+        .team-leader-feature__card,
+        .team-leader-story {
+          padding: 1.35rem;
+          border: 1px solid rgba(16, 58, 113, 0.08);
+          background:
+            radial-gradient(circle at top right, rgba(181, 214, 58, 0.12), transparent 22%),
+            linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 242, 231, 0.84));
+        }
+
+        .team-leader-feature__card h2 {
+          margin: 0.9rem 0 1rem;
+          font-family: 'Outfit', sans-serif;
+          font-size: clamp(1.9rem, 6vw, 3.4rem);
+          line-height: 0.98;
+          color: var(--color-blue-deep);
+        }
+
+        .team-leader-feature__card p,
+        .team-leader-story__copy p {
+          margin: 0 0 1rem;
+          font-size: 1rem;
+          line-height: 1.85;
+          color: var(--color-text);
+        }
+
+        .team-leader-story__copy p:last-child,
+        .team-leader-feature__card p:last-child {
+          margin-bottom: 0;
+        }
+
+        .team-leader-collage {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+
+        .team-leader-media--wide,
+        .team-leader-media--stack {
+          min-height: 15rem;
+        }
+
+        @keyframes leaderPulse {
+          0%,
+          100% {
+            transform: scale(1);
+            opacity: 0.8;
+          }
+          50% {
+            transform: scale(1.06);
+            opacity: 1;
+          }
+        }
+
+        @keyframes leaderFloat {
+          0%,
+          100% {
+            transform: translate3d(0, 0, 0);
+          }
+          50% {
+            transform: translate3d(12px, -16px, 0);
+          }
+        }
+
+        @keyframes leaderCardFloat {
+          0%,
+          100% {
+            transform: translate3d(0, 0, 0);
+          }
+          50% {
+            transform: translate3d(0, -12px, 0);
+          }
+        }
+
+        @media (min-width: 481px) {
+          .team-leader-hero__stats {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
           }
 
-          .team-leader-gallery__item.is-wide {
-            grid-column: auto;
+          .team-leader-hero__stats div {
+            border-bottom: 0;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            padding-inline: 0.8rem;
+          }
+
+          .team-leader-hero__stats div:last-child {
+            border-right: 0;
+          }
+
+          .team-leader-collage {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+
+          .team-leader-media--wide {
+            grid-column: span 2;
+            min-height: 17rem;
+          }
+        }
+
+        @media (min-width: 900px) {
+          .team-leader-hero__content {
+            grid-template-columns: minmax(0, 1fr) minmax(16rem, 0.58fr);
+            align-items: end;
+            gap: 2rem;
+            padding: 6.75rem 0 5.5rem;
+          }
+
+          .team-leader-feature {
+            grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.06fr);
+            align-items: center;
+          }
+
+          .team-leader-story-layout {
+            grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
+            align-items: start;
+          }
+
+          .team-leader-feature__card,
+          .team-leader-story {
+            padding: 2rem;
+          }
+        }
+
+        @media (min-width: 1025px) {
+          .team-leader-media--portrait {
+            min-height: 34rem;
+          }
+
+          .team-leader-media--floating {
+            width: min(48%, 16rem);
+            min-height: 13rem;
+          }
+
+          .team-leader-media--wide {
+            min-height: 18rem;
+          }
+
+          .team-leader-media--stack {
+            min-height: 18rem;
           }
         }
 
         @media (max-width: 640px) {
-          .team-leader-hero__content {
-            padding: 5.6rem 0 4.8rem;
-          }
-
+          .team-leader-media,
+          .team-leader-feature__card,
           .team-leader-story {
-            padding: 1.35rem;
-          }
-
-          .team-leader-gallery__item--hero {
-            min-height: 18rem;
-          }
-
-          .team-leader-gallery__item,
-          .team-leader-gallery__item.is-wide {
             padding: 0.65rem;
-            border-radius: 1.1rem;
           }
 
-          .team-leader-gallery__item img {
+          .team-leader-feature__card,
+          .team-leader-story {
+            padding: 1.25rem;
+          }
+
+          .team-leader-media img {
             border-radius: 0.8rem;
           }
         }

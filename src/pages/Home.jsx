@@ -1,16 +1,17 @@
 import { useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom'
 import {
   MapPinned,
 } from 'lucide-react'
 
 const quickLinks = [
   { title: 'Team Leader', href: '/team-leader' },
-  { title: 'Ambassadors Of Hope', href: '/#quick-links' },
+  { title: 'Ambassadors Of Hope', href: '/outreach' },
   { title: 'Vision & Mission', href: '/about#mission' },
   { title: 'The Amazing Journey Of WCC', href: '/amazing-journey' },
   { title: "What's Happening", href: '/#ministries' },
   { title: 'Why Partnership', href: '/donate' },
-  { title: 'Gallery', href: '/outreach' },
+  { title: 'Gallery', href: '/gallery' },
   { title: 'Give', href: '/give' },
 ]
 
@@ -113,10 +114,18 @@ function Reveal({ children, delay = 0, className = '' }) {
 }
 
 function SmartLink({ href, className, children }) {
+  if (href.includes('#')) {
+    return (
+      <a href={href} className={className}>
+        {children}
+      </a>
+    )
+  }
+
   return (
-    <a href={href} className={className}>
+    <Link to={href} className={className}>
       {children}
-    </a>
+    </Link>
   )
 }
 
@@ -146,7 +155,14 @@ const Home = () => {
           <div className="hero-home__copy">
             <span className="hero-home__eyebrow">Welcome to</span>
             <div className="hero-home__intro">
-              <img src="/dist/wp-content/icon.png" alt="Wonder Christian Centre icon" />
+              <img
+                src="/dist/wp-content/icon.png"
+                alt="Wonder Christian Centre icon"
+                width="74"
+                height="74"
+                fetchPriority="high"
+                decoding="async"
+              />
               <div>
                 <p className="hero-home__kicker">Wonder Christian Centre</p>
                 <span>where we are</span>
@@ -162,10 +178,28 @@ const Home = () => {
                 <MapPinned size={18} />
                 Get directions
               </a>
-              <a href="/give" className="button button-outline">
+              <Link to="/give" className="button button-outline">
                 Give
-              </a>
+              </Link>
             </div>
+          </div>
+
+          <div className="hero-home__spotlight">
+            <Reveal delay={180}>
+              <article className="hero-home__feature-card surface-card">
+                <div className="hero-home__logo-stage" aria-hidden="true">
+                  <div className="hero-home__logo-orbit hero-home__logo-orbit--one" />
+                  <div className="hero-home__logo-orbit hero-home__logo-orbit--two" />
+                  <img
+                    src="/2024/08/icon.png"
+                    alt="Wonder Christian Centre logo"
+                    className="hero-home__logo-mark"
+                    loading="eager"
+                    decoding="async"
+                  />
+                </div>
+              </article>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -206,7 +240,7 @@ const Home = () => {
           <div className="leader-layout">
             <Reveal className="leader-visual">
               <div className="leader-visual__frame">
-                <img src="/2024/10/benjamin.jpg" alt="Benjamin Kiconco" />
+                <img src="/2024/10/benjamin.jpg" alt="Benjamin Kiconco" loading="lazy" decoding="async" />
               </div>
             </Reveal>
 
@@ -241,7 +275,7 @@ const Home = () => {
           <Reveal>
             <a href={featuredMinistry.href} className="featured-ministry surface-card">
               <div className="featured-ministry__media">
-                <img src={featuredMinistry.image} alt={featuredMinistry.title} />
+                <img src={featuredMinistry.image} alt={featuredMinistry.title} loading="lazy" decoding="async" />
               </div>
               <div className="featured-ministry__body">
                 <h3>{featuredMinistry.title}</h3>
@@ -255,7 +289,7 @@ const Home = () => {
               <Reveal key={ministry.title} delay={index * 70}>
                 <article className="ministry-card surface-card">
                   <div className={`ministry-card__media ${ministry.imageFit === 'contain' ? 'is-contain' : ''}`}>
-                    <img src={ministry.image} alt={ministry.title} />
+                    <img src={ministry.image} alt={ministry.title} loading="lazy" decoding="async" />
                   </div>
                   <div className="ministry-card__body">
                     <h3>{ministry.title}</h3>
@@ -359,7 +393,7 @@ const Home = () => {
                 <p>
                   We believe that everyone has a part to play in God’s kingdom. Whether through prayer, volunteering, or financial support, your involvement can make a lasting impact. Join us in spreading the gospel, serving the community, and shaping destinies.
                 </p>
-                <a href="/donate" className="button button-primary">Ways to Give</a>
+                <a href="/give" className="button button-primary">Ways to Give</a>
               </div>
             </article>
           </Reveal>
@@ -371,7 +405,7 @@ const Home = () => {
           <Reveal>
             <article className="partnership-banner surface-card">
               <div className="partnership-banner__media">
-                <img src="/2024/09/AM5A1939.jpg" alt="Partnership; Endless Impact" />
+                <img src="/2024/09/AM5A1939.jpg" alt="Partnership; Endless Impact" loading="lazy" decoding="async" />
               </div>
               <div className="partnership-banner__content">
                 <span className="eyebrow">Partnership; Endless Impact</span>
@@ -385,7 +419,7 @@ const Home = () => {
       <style>{`
         .hero-home {
           position: relative;
-          min-height: calc(100vh - 8.25rem);
+          min-height: calc(100svh - 7.75rem);
           display: grid;
           align-items: center;
           overflow: clip;
@@ -456,7 +490,9 @@ const Home = () => {
         .hero-home__content {
           position: relative;
           z-index: 1;
-          padding: 7rem 0;
+          display: grid;
+          gap: 1.35rem;
+          padding: 4.75rem 0 4rem;
         }
 
         .hero-home__copy {
@@ -469,7 +505,7 @@ const Home = () => {
           display: inline-flex;
           align-items: center;
           gap: 0.85rem;
-          padding: 0.55rem 1rem;
+          padding: 0.5rem 0.9rem;
           border-radius: 999px;
           color: rgba(255, 255, 255, 0.92);
           background: rgba(255, 255, 255, 0.1);
@@ -482,11 +518,12 @@ const Home = () => {
         }
 
         .hero-home__intro {
-          display: inline-flex;
+          display: grid;
+          grid-template-columns: auto minmax(0, 1fr);
           align-items: center;
-          gap: 1rem;
-          margin-top: 1.5rem;
-          padding: 1rem 1.15rem;
+          gap: 0.85rem;
+          margin-top: 1.15rem;
+          padding: 0.9rem 1rem;
           border-radius: 1.6rem;
           background: rgba(255, 255, 255, 0.08);
           border: 1px solid rgba(255, 255, 255, 0.12);
@@ -494,8 +531,8 @@ const Home = () => {
         }
 
         .hero-home__intro img {
-          width: 4.6rem;
-          height: 4.6rem;
+          width: 3.9rem;
+          height: 3.9rem;
           border-radius: 50%;
           background: white;
           box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
@@ -518,10 +555,10 @@ const Home = () => {
         }
 
         .hero-home h1 {
-          margin: 1.5rem 0 1rem;
+          margin: 1.35rem 0 0.9rem;
           font-family: 'Outfit', sans-serif;
-          font-size: clamp(4rem, 8vw, 7.4rem);
-          line-height: 0.88;
+          font-size: clamp(2.85rem, 13vw, 7.4rem);
+          line-height: 0.9;
           letter-spacing: -0.07em;
           color: white;
         }
@@ -529,24 +566,83 @@ const Home = () => {
         .hero-home p {
           margin: 0 0 2rem;
           max-width: 46rem;
-          font-size: 1.22rem;
-          line-height: 1.95;
+          font-size: 1rem;
+          line-height: 1.8;
           color: rgba(255, 255, 255, 0.82);
         }
 
         .hero-home__actions {
           display: flex;
-          flex-wrap: wrap;
-          gap: 1rem;
+          flex-direction: column;
+          gap: 0.8rem;
+        }
+
+        .hero-home__actions .button {
+          width: 100%;
+        }
+
+        .hero-home__spotlight {
+          display: grid;
+        }
+
+        .hero-home__feature-card {
+          display: grid;
+          place-items: center;
+          min-height: 20rem;
+          padding: 1.25rem;
+          overflow: hidden;
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: rgba(255, 255, 255, 0.08);
+          backdrop-filter: blur(16px);
+          box-shadow: 0 28px 80px rgba(0, 0, 0, 0.18);
+        }
+
+        .hero-home__logo-stage {
+          position: relative;
+          display: grid;
+          place-items: center;
+          width: 100%;
+          min-height: 17rem;
+        }
+
+        .hero-home__logo-orbit {
+          position: absolute;
+          border-radius: 50%;
+          pointer-events: none;
+        }
+
+        .hero-home__logo-orbit--one {
+          width: 15rem;
+          height: 15rem;
+          border: 1px solid rgba(255, 255, 255, 0.14);
+          background: radial-gradient(circle, rgba(181, 214, 58, 0.18), transparent 66%);
+          animation: heroLogoPulse 6s ease-in-out infinite;
+        }
+
+        .hero-home__logo-orbit--two {
+          width: 11rem;
+          height: 11rem;
+          border: 1px dashed rgba(255, 255, 255, 0.18);
+          animation: heroLogoSpin 14s linear infinite;
+        }
+
+        .hero-home__logo-mark {
+          position: relative;
+          z-index: 1;
+          width: min(58vw, 12rem);
+          aspect-ratio: 1;
+          object-fit: contain;
+          filter: drop-shadow(0 22px 34px rgba(0, 0, 0, 0.24));
+          animation: heroLogoBounce 2.8s ease-in-out infinite;
         }
 
         .home-intro-panel {
           position: relative;
           overflow: hidden;
           display: grid;
-          grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-          gap: 1.5rem;
-          padding: 2rem;
+          grid-template-columns: 1fr;
+          gap: 1rem;
+          padding: 1.25rem;
           border: 1px solid rgba(16, 58, 113, 0.08);
           background:
             radial-gradient(circle at top right, rgba(181, 214, 58, 0.18), transparent 24%),
@@ -580,7 +676,7 @@ const Home = () => {
           display: flex;
           align-items: center;
           gap: 1rem;
-          justify-content: flex-end;
+          justify-content: flex-start;
         }
 
         .home-intro-panel__line {
@@ -613,7 +709,7 @@ const Home = () => {
 
         .quick-links-intro-card {
           margin-top: 1.15rem;
-          padding: 1.9rem 2rem;
+          padding: 1.25rem;
           border: 1px solid rgba(16, 58, 113, 0.08);
           background:
             rgba(255, 255, 255, 0.96);
@@ -621,8 +717,8 @@ const Home = () => {
 
         .quick-links-intro-card p {
           margin: 0;
-          font-size: 1.1rem;
-          line-height: 2;
+          font-size: 1rem;
+          line-height: 1.8;
           color: var(--color-text);
         }
 
@@ -689,8 +785,8 @@ const Home = () => {
 
         .leader-layout {
           display: grid;
-          grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-          gap: 3rem;
+          grid-template-columns: 1fr;
+          gap: 1.4rem;
           align-items: center;
         }
 
@@ -704,7 +800,7 @@ const Home = () => {
         .leader-visual__frame img {
           width: 100%;
           height: 100%;
-          min-height: 40rem;
+          min-height: 20rem;
           object-fit: cover;
           object-position: center top;
         }
@@ -717,8 +813,8 @@ const Home = () => {
         }
 
         .section-shortcuts {
-          display: flex;
-          flex-wrap: wrap;
+          display: grid;
+          grid-template-columns: 1fr;
           gap: 0.75rem;
           margin-top: 1.6rem;
         }
@@ -730,7 +826,7 @@ const Home = () => {
         .section-shortcut {
           display: inline-flex;
           align-items: center;
-          min-height: 2.8rem;
+          min-height: 3rem;
           padding: 0.72rem 1rem;
           border-radius: 999px;
           border: 1px solid rgba(16, 58, 113, 0.1);
@@ -750,7 +846,7 @@ const Home = () => {
 
         .partnership-banner {
           display: grid;
-          grid-template-columns: minmax(0, 0.96fr) minmax(0, 1.04fr);
+          grid-template-columns: 1fr;
           align-items: stretch;
           overflow: hidden;
           padding: 0;
@@ -763,7 +859,7 @@ const Home = () => {
 
         .partnership-banner__media {
           position: relative;
-          min-height: 22rem;
+          min-height: 14rem;
           overflow: hidden;
           background: #dfe6ef;
         }
@@ -792,7 +888,7 @@ const Home = () => {
           display: flex;
           flex-direction: column;
           justify-content: center;
-          padding: 2.5rem 2.6rem;
+          padding: 1.45rem 1.25rem 1.6rem;
         }
 
         .partnership-banner .eyebrow,
@@ -811,7 +907,7 @@ const Home = () => {
 
         .featured-ministry {
           display: grid;
-          grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+          grid-template-columns: 1fr;
           margin-bottom: 1.5rem;
           overflow: hidden;
           border: 1px solid rgba(181, 214, 58, 0.34);
@@ -831,12 +927,12 @@ const Home = () => {
         .featured-ministry__media img {
           width: 100%;
           height: 100%;
-          min-height: 25rem;
+          min-height: 15rem;
           object-fit: cover;
         }
 
         .featured-ministry__body {
-          padding: 2.35rem;
+          padding: 1.45rem 1.25rem 1.6rem;
         }
 
         .featured-ministry__body h3 {
@@ -856,7 +952,7 @@ const Home = () => {
 
         .story-panel,
         .give-panel {
-          padding: 2.35rem;
+          padding: 1.45rem 1.25rem 1.6rem;
           border: 1px solid rgba(16, 58, 113, 0.1);
         }
 
@@ -909,13 +1005,13 @@ const Home = () => {
 
         .story-panel blockquote {
           margin: 1.25rem 0;
-          padding: 1.2rem 1.35rem;
+          padding: 1rem 1rem 1rem 1.1rem;
           border-left: 4px solid var(--color-lemon);
           border-radius: 0 1rem 1rem 0;
           background: rgba(16, 58, 113, 0.04);
           font-family: 'Outfit', sans-serif;
-          font-size: 1.22rem;
-          line-height: 1.65;
+          font-size: 1rem;
+          line-height: 1.6;
           color: var(--color-blue-deep);
         }
 
@@ -934,8 +1030,8 @@ const Home = () => {
 
         .ministries-grid {
           display: grid;
-          grid-template-columns: repeat(3, minmax(0, 1fr));
-          gap: 1.35rem;
+          grid-template-columns: 1fr;
+          gap: 1rem;
           margin-top: 1.5rem;
         }
 
@@ -968,7 +1064,7 @@ const Home = () => {
         }
 
         .ministry-card__media.is-contain {
-          min-height: 23rem;
+          min-height: 16rem;
           padding: 0.35rem;
         }
 
@@ -977,51 +1073,142 @@ const Home = () => {
         }
 
         .ministry-card__body {
-          padding: 1.65rem 1.55rem 1.75rem;
+          padding: 1.25rem 1.1rem 1.3rem;
         }
 
-        @media (max-width: 1180px) {
-          .home-intro-panel {
-            grid-template-columns: 1fr;
+        @keyframes heroLogoBounce {
+          0%,
+          100% {
+            transform: translateY(0) scale(1);
+          }
+          50% {
+            transform: translateY(-14px) scale(1.03);
+          }
+        }
+
+        @keyframes heroLogoPulse {
+          0%,
+          100% {
+            transform: scale(1);
+            opacity: 0.7;
+          }
+          50% {
+            transform: scale(1.08);
+            opacity: 1;
+          }
+        }
+
+        @keyframes heroLogoSpin {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        @media (min-width: 481px) {
+          .hero-home__actions {
+            flex-direction: row;
           }
 
-          .featured-ministry,
+          .hero-home__actions .button {
+            width: auto;
+          }
+
+          .hero-home__feature-card {
+            min-height: 22rem;
+          }
+
+          .section-shortcuts {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+        }
+
+        @media (min-width: 901px) {
+          .hero-home__content {
+            grid-template-columns: minmax(0, 1.02fr) minmax(18rem, 0.68fr);
+            align-items: center;
+            gap: 2rem;
+            padding: 7rem 0;
+          }
+
+          .hero-home p {
+            font-size: 1.22rem;
+            line-height: 1.95;
+          }
+
+          .hero-home__feature-card {
+            transform: translateY(1.25rem);
+          }
+
+          .hero-home__logo-mark {
+            width: min(18rem, 100%);
+          }
+
+          .leader-layout,
+          .partnership-banner,
+          .featured-ministry {
+            grid-template-columns: minmax(0, 0.96fr) minmax(0, 1.04fr);
+          }
+
+          .leader-layout {
+            grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+            gap: 3rem;
+          }
+
+          .leader-visual__frame img {
+            min-height: 40rem;
+          }
+
+          .partnership-banner__media {
+            min-height: 22rem;
+          }
+
+          .partnership-banner__content,
+          .story-panel,
+          .give-panel {
+            padding: 2.35rem;
+          }
+
+          .featured-ministry__media img {
+            min-height: 25rem;
+          }
+
+          .featured-ministry__body {
+            padding: 2.35rem;
+          }
+        }
+
+        @media (min-width: 1181px) {
+          .home-intro-panel {
+            grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+            gap: 1.5rem;
+            padding: 2rem;
+          }
+
+          .home-intro-panel__body {
+            justify-content: flex-end;
+          }
+
           .ministries-grid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
           }
         }
 
-        @media (max-width: 900px) {
-          .hero-home {
-            min-height: auto;
-          }
-
-          .hero-home__content {
-            padding: 6rem 0 5rem;
-          }
-
-          .leader-layout,
-          .partnership-banner,
-          .featured-ministry,
-          .quick-links-grid,
+        @media (min-width: 1025px) {
           .ministries-grid {
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1.35rem;
           }
 
-          .partnership-banner__media {
-            min-height: 16rem;
-          }
-
-          .leader-visual__frame img {
-            min-height: 28rem;
+          .section-shortcuts {
+            display: flex;
+            flex-wrap: wrap;
           }
         }
 
         @media (max-width: 640px) {
-          .hero-home__content {
-            padding: 5.2rem 0 4.2rem;
-          }
-
           .hero-home__eyebrow {
             font-size: 0.7rem;
             letter-spacing: 0.18em;
@@ -1031,34 +1218,36 @@ const Home = () => {
             width: 100%;
           }
 
+          .hero-home__kicker {
+            font-size: 1.35rem;
+          }
+
+          .hero-home__intro span {
+            font-size: 0.92rem;
+          }
+
+          .story-panel__dropcap {
+            width: 3.6rem;
+            height: 3.6rem;
+            margin-right: 0.75rem;
+            font-size: 2rem;
+          }
+
+          .section-shortcut {
+            width: 100%;
+            justify-content: center;
+          }
+        }
+
+        @media (max-width: 380px) {
           .hero-home h1 {
-            font-size: clamp(2.9rem, 13vw, 4.35rem);
+            font-size: 2.65rem;
           }
 
-          .hero-home p {
-            font-size: 1.03rem;
+          .hero-home__intro {
+            grid-template-columns: 1fr;
+            justify-items: start;
           }
-
-          .quick-links-intro-card,
-          .ministry-card__body {
-            padding-inline: 1.25rem;
-          }
-
-          .home-intro-panel,
-          .quick-links-intro-card {
-            padding: 1.25rem;
-          }
-
-          .featured-ministry__body {
-            padding: 1.45rem 1.25rem 1.6rem;
-          }
-
-          .story-panel,
-          .give-panel,
-          .partnership-banner__content {
-            padding: 1.45rem 1.25rem 1.6rem;
-          }
-
         }
       `}</style>
     </div>

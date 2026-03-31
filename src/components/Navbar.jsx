@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { ChevronDown, Mail, Menu, Phone, X } from 'lucide-react'
 
 function HeaderSocialIcon({ type }) {
@@ -79,6 +79,7 @@ function NavAnchor({ href, children, className, onClick }) {
 }
 
 const Navbar = () => {
+  const location = useLocation()
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [openMobileMenu, setOpenMobileMenu] = useState(null)
@@ -100,6 +101,35 @@ const Navbar = () => {
     }
   }, [isOpen])
 
+  useEffect(() => {
+    setIsOpen(false)
+    setOpenMobileMenu(null)
+  }, [location.pathname, location.hash])
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 960) {
+        setIsOpen(false)
+        setOpenMobileMenu(null)
+      }
+    }
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setIsOpen(false)
+        setOpenMobileMenu(null)
+      }
+    }
+
+    window.addEventListener('resize', handleResize)
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [])
+
   const toggleMobileBranch = (label) => {
     setOpenMobileMenu((current) => (current === label ? null : label))
   }
@@ -119,13 +149,13 @@ const Navbar = () => {
             </a>
           </div>
           <div className="header-topbar__socials">
-            <a href="https://www.facebook.com/wccug" aria-label="Facebook">
+            <a href="https://www.facebook.com/wccug" aria-label="Facebook" target="_blank" rel="noreferrer">
               <HeaderSocialIcon type="facebook" />
             </a>
-            <a href="https://www.instagram.com/wcc" aria-label="Instagram">
+            <a href="https://www.instagram.com/wccug" aria-label="Instagram" target="_blank" rel="noreferrer">
               <HeaderSocialIcon type="instagram" />
             </a>
-            <a href="https://youtube.com/@wccug?si=P8YJjF2mwdE4fFoR" aria-label="YouTube">
+            <a href="https://youtube.com/@wccug?si=P8YJjF2mwdE4fFoR" aria-label="YouTube" target="_blank" rel="noreferrer">
               <HeaderSocialIcon type="youtube" />
             </a>
           </div>
@@ -135,7 +165,13 @@ const Navbar = () => {
       <div className="header-nav-shell">
         <div className="container header-nav">
           <Link to="/" className="header-brand" aria-label="Wonder Christian Centre home">
-            <img src="/dist/wp-content/icon.png" alt="Wonder Christian Centre icon" />
+            <img
+              src="/dist/wp-content/icon.png"
+              alt="Wonder Christian Centre icon"
+              width="48"
+              height="48"
+              decoding="async"
+            />
             <div>
               <strong>Wonder Christian Centre</strong>
               <span>Shaping Destinies</span>
@@ -178,6 +214,7 @@ const Navbar = () => {
               className="header-menu-toggle"
               aria-label={isOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isOpen}
+              aria-controls="mobile-navigation-panel"
               onClick={() => setIsOpen((open) => !open)}
             >
               {isOpen ? <X size={22} /> : <Menu size={22} />}
@@ -186,8 +223,13 @@ const Navbar = () => {
         </div>
       </div>
 
-      <div className={`mobile-panel ${isOpen ? 'is-open' : ''}`}>
-        <div className="mobile-panel__card">
+      <div
+        id="mobile-navigation-panel"
+        className={`mobile-panel ${isOpen ? 'is-open' : ''}`}
+        aria-hidden={!isOpen}
+        onClick={() => setIsOpen(false)}
+      >
+        <div className="mobile-panel__card" onClick={(event) => event.stopPropagation()}>
           {navItems.map((item) =>
             item.children ? (
               <div key={item.label} className="mobile-branch">
@@ -204,6 +246,7 @@ const Navbar = () => {
                     className="mobile-panel__toggle-button"
                     onClick={() => toggleMobileBranch(item.label)}
                     aria-label={`${item.label} submenu`}
+                    aria-expanded={openMobileMenu === item.label}
                   >
                     <ChevronDown size={18} className={openMobileMenu === item.label ? 'is-rotated' : ''} />
                   </button>
@@ -240,6 +283,7 @@ const Navbar = () => {
           position: sticky;
           top: 0;
           z-index: 40;
+          padding-top: var(--safe-top);
           transition: transform var(--transition), box-shadow var(--transition);
         }
 
@@ -259,28 +303,31 @@ const Navbar = () => {
           align-items: center;
           justify-content: space-between;
           gap: 1rem;
-          min-height: 2.9rem;
+          min-height: 3rem;
+          padding-block: 0.35rem;
         }
 
         .header-topbar__info,
         .header-topbar__socials {
           display: flex;
           align-items: center;
-          gap: 1.2rem;
+          gap: 0.8rem;
+          flex-wrap: wrap;
         }
 
         .header-topbar a {
           display: inline-flex;
           align-items: center;
           gap: 0.45rem;
+          min-height: 2.75rem;
           font-size: 0.82rem;
           font-weight: 700;
         }
 
         .header-topbar__socials a {
           justify-content: center;
-          width: 1.9rem;
-          height: 1.9rem;
+          width: 2.2rem;
+          height: 2.2rem;
           border-radius: 999px;
           border: 1px solid rgba(255, 255, 255, 0.14);
           background: rgba(255, 255, 255, 0.08);
@@ -310,7 +357,7 @@ const Navbar = () => {
           align-items: center;
           justify-content: space-between;
           gap: 1rem;
-          min-height: 5.35rem;
+          min-height: 4.75rem;
         }
 
         .header-brand {
@@ -318,6 +365,7 @@ const Navbar = () => {
           align-items: center;
           gap: 0.85rem;
           min-width: 0;
+          flex: 1 1 auto;
         }
 
         .header-brand img {
@@ -481,12 +529,13 @@ const Navbar = () => {
           display: flex;
           align-items: center;
           gap: 0.75rem;
+          flex-shrink: 0;
         }
 
         .header-menu-toggle {
           display: none;
-          width: 2.95rem;
-          height: 2.95rem;
+          width: 3rem;
+          height: 3rem;
           border: 1px solid rgba(16, 58, 113, 0.12);
           border-radius: 999px;
           background: white;
@@ -500,7 +549,7 @@ const Navbar = () => {
           display: none;
           align-items: flex-start;
           justify-content: center;
-          padding: 6.5rem 1rem 1rem;
+          padding: calc(4.9rem + var(--safe-top)) calc(0.75rem + var(--safe-right)) calc(1rem + var(--safe-bottom)) calc(0.75rem + var(--safe-left));
           background: rgba(8, 29, 57, 0.32);
           opacity: 0;
           pointer-events: none;
@@ -533,6 +582,7 @@ const Navbar = () => {
           align-items: center;
           justify-content: flex-start;
           width: 100%;
+          min-height: 3rem;
           padding: 1rem 0.9rem;
           border: 0;
           border-radius: 1rem;
@@ -610,8 +660,16 @@ const Navbar = () => {
         }
 
         @media (max-width: 960px) {
+          .header-topbar {
+            display: none;
+          }
+
           .header-links {
             display: none;
+          }
+
+          .header-nav {
+            min-height: 4.4rem;
           }
 
           .header-menu-toggle,
@@ -621,15 +679,6 @@ const Navbar = () => {
         }
 
         @media (max-width: 720px) {
-          .header-topbar__inner {
-            justify-content: center;
-          }
-
-          .header-topbar__info span:last-child,
-          .header-topbar__socials {
-            display: none;
-          }
-
           .header-brand strong {
             font-size: 0.92rem;
           }
@@ -637,6 +686,36 @@ const Navbar = () => {
           .header-brand span {
             font-size: 0.72rem;
             letter-spacing: 0.14em;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .header-nav {
+            min-height: 4.4rem;
+            gap: 0.75rem;
+          }
+
+          .header-brand {
+            gap: 0.7rem;
+            align-items: center;
+          }
+
+          .header-brand img {
+            width: 2.7rem;
+            height: 2.7rem;
+          }
+
+          .header-brand strong {
+            font-size: 0.86rem;
+          }
+
+          .header-brand span {
+            font-size: 0.68rem;
+          }
+
+          .mobile-panel__card {
+            padding: 1rem;
+            border-radius: 1.4rem;
           }
         }
       `}</style>

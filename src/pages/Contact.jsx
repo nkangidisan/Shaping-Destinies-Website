@@ -1,5 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { Mail, MapPin, MessageCircle, Phone } from 'lucide-react'
+import FaqSection from '../components/FaqSection'
+import { seoRouteMap } from '../seo/routes'
 
 function SocialIcon({ type }) {
   if (type === 'tiktok') {
@@ -76,7 +78,7 @@ const socialLinks = [
   { label: 'TikTok', href: 'https://www.tiktok.com/@wccug?_r=1&_t=ZS-956s5H5QE0z', icon: 'tiktok' },
   { label: 'YouTube', href: 'https://youtube.com/@wccug?si=P8YJjF2mwdE4fFoR', icon: 'youtube' },
   { label: 'Facebook', href: 'https://www.facebook.com/wccug', icon: 'facebook' },
-  { label: 'Instagram', href: 'https://www.instagram.com/wcc', icon: 'instagram' },
+  { label: 'Instagram', href: 'https://www.instagram.com/wccug', icon: 'instagram' },
   { label: 'WhatsApp', href: 'https://wa.me/256707000999', icon: 'whatsapp' },
 ]
 
@@ -98,15 +100,36 @@ const Contact = () => {
             <p>
               Thank you for visiting our website. You can reach us with any inquiries on wonderchristiancentre@gmail.com.
             </p>
-            <p>
-              Connect with us online by following us on Facebook, Instagram, YouTube, TikTok and WhatsApp. Whatever you choose to do, know that we love you and want to welcome you to the family.
-            </p>
           </Reveal>
         </div>
       </section>
 
       <section className="section">
         <div className="container">
+          <Reveal>
+            <article className="contact-community surface-card">
+              <div className="contact-community__copy">
+                <span className="eyebrow">Stay Connected</span>
+                <h2>Meet us online, stay encouraged, and feel at home with us.</h2>
+                <p>
+                  Connect with us online by following us on Facebook, Instagram, YouTube, TikTok,
+                  and WhatsApp. Whatever you choose to do, know that we love you and want to
+                  welcome you to the family.
+                </p>
+              </div>
+              <div className="contact-community__chips">
+                {socialLinks.map((item) => (
+                  <a key={item.label} href={item.href} className="contact-community__chip" target="_blank" rel="noreferrer">
+                    <span className="contact-community__chip-icon">
+                      <SocialIcon type={item.icon} />
+                    </span>
+                    <span>{item.label}</span>
+                  </a>
+                ))}
+              </div>
+            </article>
+          </Reveal>
+
           <div className="contact-layout">
             <Reveal>
               <article className="contact-card surface-card">
@@ -163,15 +186,15 @@ const Contact = () => {
                 <form className="contact-form">
                   <label className="contact-field">
                     <span>Name</span>
-                    <input type="text" placeholder="Name" />
+                    <input type="text" placeholder="Name" autoComplete="name" inputMode="text" />
                   </label>
                   <label className="contact-field">
                     <span>Email</span>
-                    <input type="email" placeholder="Email" />
+                    <input type="email" placeholder="Email" autoComplete="email" inputMode="email" />
                   </label>
                   <label className="contact-field">
                     <span>Phone Number</span>
-                    <input type="tel" placeholder="Phone Number" />
+                    <input type="tel" placeholder="Phone Number" autoComplete="tel" inputMode="tel" />
                   </label>
                   <label className="contact-field contact-field--full">
                     <span>Message</span>
@@ -197,13 +220,15 @@ const Contact = () => {
             {contactImages.map((image, index) => (
               <Reveal key={image} delay={index * 90}>
                 <figure className={`contact-gallery__item surface-card ${index === 0 ? 'is-featured' : ''}`}>
-                  <img src={image} alt={`Contact Wonder Christian Centre ${index + 1}`} />
+                  <img src={image} alt={`Contact Wonder Christian Centre ${index + 1}`} loading="lazy" decoding="async" />
                 </figure>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
+
+      <FaqSection {...seoRouteMap['/contact'].faqSection} />
 
       <style>{`
         .contact-page {
@@ -226,10 +251,9 @@ const Contact = () => {
 
         .contact-hero__bg {
           background:
-            radial-gradient(circle at 18% 18%, rgba(181, 214, 58, 0.26), transparent 18%),
-            radial-gradient(circle at 78% 24%, rgba(255, 255, 255, 0.08), transparent 16%),
-            linear-gradient(135deg, #06162c 0%, #0a2142 50%, #143c74 100%);
-          transform: scale(1.04);
+            linear-gradient(0deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.12)),
+            url('/2024/11/_MG_1019.jpg.jpeg') center/cover no-repeat;
+          transform: scale(1.06);
           animation: heroBackdropZoom 16s ease-out forwards;
         }
 
@@ -242,7 +266,7 @@ const Contact = () => {
         .contact-hero__content {
           position: relative;
           z-index: 1;
-          padding: 7rem 0 5.5rem;
+          padding: 5.25rem 0 4.5rem;
         }
 
         .contact-hero__copy {
@@ -269,16 +293,88 @@ const Contact = () => {
 
         .contact-hero__copy p {
           margin: 0 0 1rem;
-          font-size: 1.08rem;
-          line-height: 1.9;
+          font-size: 1rem;
+          line-height: 1.8;
           color: rgba(255, 255, 255, 0.84);
         }
 
         .contact-layout {
           display: grid;
-          grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-          gap: 1.3rem;
+          grid-template-columns: 1fr;
+          gap: 1rem;
           align-items: start;
+          margin-top: 1.1rem;
+        }
+
+        .contact-community {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 1.2rem;
+          margin-bottom: 1.1rem;
+          padding: 1.35rem;
+          border: 1px solid rgba(16, 58, 113, 0.08);
+          background:
+            radial-gradient(circle at top right, rgba(181, 214, 58, 0.16), transparent 22%),
+            linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 242, 231, 0.9));
+          box-shadow: 0 24px 60px rgba(8, 29, 57, 0.08);
+        }
+
+        .contact-community__copy h2 {
+          margin: 0.9rem 0 0.85rem;
+          font-family: 'Outfit', sans-serif;
+          font-size: clamp(1.9rem, 4vw, 3rem);
+          line-height: 1;
+          color: var(--color-blue-deep);
+        }
+
+        .contact-community__copy p {
+          margin: 0;
+          font-size: 1rem;
+          line-height: 1.82;
+          color: var(--color-text);
+        }
+
+        .contact-community__chips {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.75rem;
+        }
+
+        .contact-community__chip {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.65rem;
+          min-height: 3rem;
+          padding: 0.8rem 1rem;
+          border-radius: 999px;
+          border: 1px solid rgba(16, 58, 113, 0.1);
+          background: rgba(255, 255, 255, 0.92);
+          box-shadow: 0 14px 32px rgba(8, 29, 57, 0.06);
+          font-weight: 800;
+          color: var(--color-blue-deep);
+          transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+        }
+
+        .contact-community__chip:hover {
+          transform: translateY(-3px);
+          border-color: rgba(181, 214, 58, 0.45);
+          box-shadow: 0 18px 36px rgba(8, 29, 57, 0.1);
+        }
+
+        .contact-community__chip-icon {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 2rem;
+          height: 2rem;
+          border-radius: 999px;
+          background: rgba(16, 58, 113, 0.08);
+          color: var(--color-blue);
+        }
+
+        .contact-community__chip-icon svg {
+          width: 1rem;
+          height: 1rem;
         }
 
         .contact-card,
@@ -292,7 +388,7 @@ const Contact = () => {
 
         .contact-card,
         .contact-form-card {
-          padding: 2rem;
+          padding: 1.35rem;
         }
 
         .contact-card h2,
@@ -344,7 +440,7 @@ const Contact = () => {
 
         .contact-socials {
           display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
+          grid-template-columns: 1fr;
           gap: 0.85rem;
           margin-top: 1.25rem;
         }
@@ -390,14 +486,14 @@ const Contact = () => {
 
         .contact-form {
           display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
+          grid-template-columns: 1fr;
           gap: 1rem;
         }
 
         .contact-gallery {
           display: grid;
-          grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-          gap: 1.2rem;
+          grid-template-columns: 1fr;
+          gap: 1rem;
         }
 
         .contact-gallery__item {
@@ -419,14 +515,14 @@ const Contact = () => {
         }
 
         .contact-gallery__item.is-featured {
-          min-height: 30rem;
+          min-height: 16rem;
         }
 
         .contact-gallery__item img {
           display: block;
           width: 100%;
           height: 100%;
-          object-fit: contain;
+          object-fit: cover;
           border-radius: 1rem;
           background: rgba(255, 255, 255, 0.94);
         }
@@ -439,7 +535,7 @@ const Contact = () => {
         .contact-field--full,
         .contact-checkbox,
         .contact-actions {
-          grid-column: span 2;
+          grid-column: auto;
         }
 
         .contact-field span,
@@ -452,6 +548,7 @@ const Contact = () => {
         .contact-field input,
         .contact-field textarea {
           width: 100%;
+          min-height: 3rem;
           padding: 0.9rem 1rem;
           border: 1px solid rgba(16, 58, 113, 0.12);
           border-radius: 0.95rem;
@@ -471,7 +568,7 @@ const Contact = () => {
 
         .contact-checkbox {
           display: inline-flex;
-          align-items: center;
+          align-items: flex-start;
           gap: 0.75rem;
           margin-top: 0.2rem;
         }
@@ -487,36 +584,70 @@ const Contact = () => {
           justify-content: flex-start;
         }
 
-        @media (max-width: 980px) {
-          .contact-layout,
-          .contact-form,
+        @media (min-width: 481px) {
+          .contact-socials {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+        }
+
+        @media (min-width: 981px) {
+          .contact-hero__content {
+            padding: 7rem 0 5.5rem;
+          }
+
+          .contact-hero__copy p {
+            font-size: 1.08rem;
+            line-height: 1.9;
+          }
+
+          .contact-layout {
+            grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+            gap: 1.3rem;
+          }
+
+          .contact-community {
+            grid-template-columns: minmax(0, 1fr) auto;
+            align-items: center;
+            padding: 2rem;
+          }
+
+          .contact-community__chips {
+            justify-content: flex-end;
+            max-width: 26rem;
+          }
+
+          .contact-card,
+          .contact-form-card {
+            padding: 2rem;
+          }
+
+          .contact-form {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+
           .contact-gallery {
-            grid-template-columns: 1fr;
+            grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+            gap: 1.2rem;
+          }
+
+          .contact-gallery__item.is-featured {
+            min-height: 30rem;
+          }
+
+          .contact-gallery__item img {
+            object-fit: contain;
           }
 
           .contact-field--full,
           .contact-checkbox,
           .contact-actions {
-            grid-column: auto;
+            grid-column: span 2;
           }
         }
 
         @media (max-width: 640px) {
-          .contact-hero__content {
-            padding: 5.6rem 0 4.8rem;
-          }
-
-          .contact-card,
-          .contact-form-card {
-            padding: 1.35rem;
-          }
-
-          .contact-socials {
-            grid-template-columns: 1fr;
-          }
-
-          .contact-gallery__item.is-featured {
-            min-height: 16rem;
+          .contact-actions .button {
+            width: 100%;
           }
         }
       `}</style>

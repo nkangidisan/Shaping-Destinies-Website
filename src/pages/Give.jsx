@@ -1,4 +1,6 @@
 import { useEffect, useRef } from 'react'
+import FaqSection from '../components/FaqSection'
+import { seoRouteMap } from '../seo/routes'
 
 const giveImages = [
   '/2024/09/MG_2977.jpg',
@@ -50,28 +52,35 @@ const Give = () => {
           <Reveal className="give-hero__copy">
             <span className="eyebrow">Give</span>
             <h1>Give</h1>
-            <p>
-              Your generosity helps us continue our mission of transforming lives. As the Bible says, &quot;It is He who gives you power to get wealth, that He may establish His covenant&quot; (Deuteronomy 8:18). Every contribution, big or small, makes a difference.
-            </p>
-            <p>
-              &quot;For such a time as this...You have been chosen!&quot; (Esther 4:14)
-            </p>
-            <p>
-              We believe that everyone has a part to play in God&apos;s kingdom. Whether through prayer, volunteering, or financial support, your involvement can make a lasting impact. Join us in spreading the gospel, serving the community, and shaping destinies.
-            </p>
           </Reveal>
         </div>
       </section>
 
       <section className="section">
         <div className="container">
+          <Reveal>
+            <article className="give-message surface-card">
+              <div className="give-message__copy">
+                <span className="eyebrow">A Call to Give</span>
+                <h2>Your generosity helps us continue our mission of transforming lives.</h2>
+                <p>
+                  As the Bible says, &quot;It is He who gives you power to get wealth, that He may establish His covenant&quot; (Deuteronomy 8:18). Every contribution, big or small, makes a difference.
+                </p>
+                <blockquote>&quot;For such a time as this...You have been chosen!&quot; (Esther 4:14)</blockquote>
+                <p>
+                  We believe that everyone has a part to play in God&apos;s kingdom. Whether through prayer, volunteering, or financial support, your involvement can make a lasting impact. Join us in spreading the gospel, serving the community, and shaping destinies.
+                </p>
+              </div>
+            </article>
+          </Reveal>
+
           <div className="give-layout">
             <div className="give-rail">
               <Reveal>
                 <article className="give-info surface-card">
                   <h2>Ways to Give</h2>
                   <p className="give-info__intro">
-                    Give
+                    Choose the giving channel that works best for you and support the mission with confidence.
                   </p>
                   <a href="#ways-to-give" className="button button-primary">Ways to Give</a>
                 </article>
@@ -103,7 +112,7 @@ const Give = () => {
 
               <Reveal delay={120}>
                 <figure className="give-image surface-card">
-                  <img src={giveImages[0]} alt="Give Wonder Christian Centre" />
+                  <img src={giveImages[0]} alt="Members supporting Wonder Christian Centre ministry" loading="lazy" decoding="async" />
                 </figure>
               </Reveal>
             </div>
@@ -114,8 +123,7 @@ const Give = () => {
                   <div className="give-form__heading">
                     <span className="eyebrow">Ways to Give</span>
                     <h2>Fill in your gift details below to pay using VISA/MASTERCARD</h2>
-                    <p>Give Directly</p>
-                    <p>Give Directly</p>
+                    <p>Use the form below to support Wonder Christian Centre securely and directly.</p>
                   </div>
 
                   <form className="give-form__grid">
@@ -183,13 +191,15 @@ const Give = () => {
                 </article>
 
                 <figure className="give-image give-image--wide surface-card">
-                  <img src={giveImages[1]} alt="Generosity Wonder Christian Centre" />
+                  <img src={giveImages[1]} alt="Generosity supporting Wonder Christian Centre outreach" loading="lazy" decoding="async" />
                 </figure>
               </div>
             </Reveal>
           </div>
         </div>
       </section>
+
+      <FaqSection {...seoRouteMap['/give'].faqSection} />
 
       <style>{`
         .give-page {
@@ -212,10 +222,9 @@ const Give = () => {
 
         .give-hero__bg {
           background:
-            radial-gradient(circle at 18% 18%, rgba(181, 214, 58, 0.26), transparent 18%),
-            radial-gradient(circle at 78% 24%, rgba(255, 255, 255, 0.08), transparent 16%),
-            linear-gradient(135deg, #06162c 0%, #0a2142 50%, #143c74 100%);
-          transform: scale(1.04);
+            linear-gradient(0deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.12)),
+            url('/2024/11/_MG_1025.jpg.jpeg') center top/cover no-repeat;
+          transform: scale(1.06);
           animation: heroBackdropZoom 16s ease-out forwards;
         }
 
@@ -232,7 +241,7 @@ const Give = () => {
         }
 
         .give-hero__copy {
-          max-width: 50rem;
+          max-width: 42rem;
           color: white;
         }
 
@@ -245,7 +254,7 @@ const Give = () => {
         }
 
         .give-hero__copy h1 {
-          margin: 1rem 0;
+          margin: 1rem 0 0;
           font-family: 'Outfit', sans-serif;
           font-size: clamp(3rem, 6vw, 5.4rem);
           line-height: 0.94;
@@ -253,11 +262,45 @@ const Give = () => {
           color: white;
         }
 
-        .give-hero__copy p {
-          margin: 0;
-          font-size: 1.08rem;
-          line-height: 1.9;
-          color: rgba(255, 255, 255, 0.84);
+        .give-message {
+          margin-bottom: 1.15rem;
+          padding: 1.4rem;
+          border: 1px solid rgba(16, 58, 113, 0.08);
+          background:
+            radial-gradient(circle at top right, rgba(181, 214, 58, 0.16), transparent 24%),
+            linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 242, 231, 0.88));
+          box-shadow: 0 24px 60px rgba(8, 29, 57, 0.08);
+        }
+
+        .give-message__copy h2 {
+          margin: 0.9rem 0 0.95rem;
+          font-family: 'Outfit', sans-serif;
+          font-size: clamp(1.9rem, 4vw, 3rem);
+          line-height: 1;
+          color: var(--color-blue-deep);
+        }
+
+        .give-message__copy p {
+          margin: 0 0 1rem;
+          font-size: 1rem;
+          line-height: 1.85;
+          color: var(--color-text);
+        }
+
+        .give-message__copy p:last-child {
+          margin-bottom: 0;
+        }
+
+        .give-message__copy blockquote {
+          margin: 1.2rem 0;
+          padding: 1rem 1.1rem;
+          border-left: 4px solid var(--color-lemon);
+          border-radius: 0 1rem 1rem 0;
+          background: rgba(16, 58, 113, 0.04);
+          font-family: 'Outfit', sans-serif;
+          font-size: 1.12rem;
+          line-height: 1.65;
+          color: var(--color-blue-deep);
         }
 
         .give-layout {
@@ -435,6 +478,10 @@ const Give = () => {
         @media (max-width: 640px) {
           .give-hero__content {
             padding: 5.6rem 0 4.8rem;
+          }
+
+          .give-message {
+            padding: 1.25rem;
           }
 
           .give-info,

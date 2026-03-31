@@ -137,7 +137,7 @@ const Gallery = () => {
             {galleryImages.map((image, index) => (
               <Reveal key={image} delay={(index % 4) * 70}>
                 <figure className={`gallery-card surface-card ${index % 9 === 0 ? 'gallery-card--featured' : ''}`}>
-                  <img src={image} alt={`Gallery ${index + 1}`} loading="lazy" />
+                  <img src={image} alt={`Gallery ${index + 1}`} loading="lazy" decoding="async" />
                 </figure>
               </Reveal>
             ))}
@@ -182,7 +182,7 @@ const Gallery = () => {
         .gallery-hero__content {
           position: relative;
           z-index: 1;
-          padding: 7rem 0 5.5rem;
+          padding: 5.25rem 0 4.5rem;
         }
 
         .gallery-hero__copy {
@@ -209,15 +209,15 @@ const Gallery = () => {
 
         .gallery-grid {
           display: grid;
-          grid-template-columns: repeat(3, minmax(0, 1fr));
-          gap: 1.15rem;
+          grid-template-columns: 1fr;
+          gap: 1rem;
         }
 
         .gallery-card {
           margin: 0;
           overflow: hidden;
-          padding: 0.8rem;
-          border-radius: 1.45rem;
+          padding: 0.65rem;
+          border-radius: 1.1rem;
           border: 1px solid rgba(16, 58, 113, 0.08);
           background:
             radial-gradient(circle at top right, rgba(181, 214, 58, 0.12), transparent 22%),
@@ -232,8 +232,7 @@ const Gallery = () => {
         }
 
         .gallery-card--featured {
-          grid-column: span 2;
-          padding: 1rem;
+          grid-column: auto;
         }
 
         .gallery-card img {
@@ -243,9 +242,10 @@ const Gallery = () => {
           border-radius: 1rem;
           object-fit: contain;
           background: rgba(255, 255, 255, 0.94);
+          aspect-ratio: 4 / 3;
         }
 
-        @media (max-width: 980px) {
+        @media (min-width: 481px) {
           .gallery-grid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
           }
@@ -255,23 +255,27 @@ const Gallery = () => {
           }
         }
 
-        @media (max-width: 640px) {
+        @media (min-width: 1025px) {
           .gallery-hero__content {
-            padding: 5.6rem 0 4.8rem;
+            padding: 7rem 0 5.5rem;
           }
 
           .gallery-grid {
-            grid-template-columns: 1fr;
-            gap: 1rem;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1.15rem;
           }
 
-          .gallery-card,
+          .gallery-card {
+            padding: 0.8rem;
+            border-radius: 1.45rem;
+          }
+
           .gallery-card--featured {
-            grid-column: auto;
-            padding: 0.65rem;
-            border-radius: 1.1rem;
+            padding: 1rem;
           }
+        }
 
+        @media (max-width: 640px) {
           .gallery-card img {
             border-radius: 0.8rem;
           }
