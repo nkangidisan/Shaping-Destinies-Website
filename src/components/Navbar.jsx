@@ -166,7 +166,7 @@ const Navbar = () => {
         <div className="container header-nav">
           <Link to="/" className="header-brand" aria-label="Wonder Christian Centre home">
             <img
-              src="/dist/wp-content/icon.png"
+src="/2024/08/icon.png"
               alt="Wonder Christian Centre icon"
               width="48"
               height="48"

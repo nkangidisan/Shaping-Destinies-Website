@@ -61,7 +61,7 @@ const Footer = () => {
       <div className="container site-footer__grid">
         <div className="site-footer__brand">
           <img
-            src="/dist/wp-content/icon.png"
+src="/2024/08/icon.png"
             alt="Wonder Christian Centre icon"
             width="68"
             height="68"

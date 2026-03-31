@@ -156,7 +156,7 @@ const Home = () => {
             <span className="hero-home__eyebrow">Welcome to</span>
             <div className="hero-home__intro">
               <img
-                src="/dist/wp-content/icon.png"
+src="/2024/08/icon.png"
                 alt="Wonder Christian Centre icon"
                 width="74"
                 height="74"
