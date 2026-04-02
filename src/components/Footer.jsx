@@ -1,4 +1,21 @@
 import { Mail, MapPin, Phone } from 'lucide-react'
+import { Link } from 'react-router-dom'
+
+function SmartLink({ href, className, children }) {
+  if (href.includes('#')) {
+    return (
+      <a href={href} className={className || ''}>
+        {children}
+      </a>
+    )
+  }
+
+  return (
+    <Link to={href} className={className || ''}>
+      {children}
+    </Link>
+  )
+}
 
 function FooterSocialIcon({ type }) {
   if (type === 'facebook') {
@@ -97,7 +114,7 @@ const Footer = () => {
           <ul className="site-footer__list">
             {footerLinks.map((item) => (
               <li key={item.label}>
-                <a href={item.href}>{item.label}</a>
+                <SmartLink href={item.href}>{item.label}</SmartLink>
               </li>
             ))}
           </ul>
