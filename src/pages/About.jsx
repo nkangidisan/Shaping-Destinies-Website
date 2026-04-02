@@ -97,17 +97,17 @@ const About = () => {
             <div className="about-story-gallery">
               <Reveal delay={70}>
                 <figure className="about-media about-media--primary surface-card">
-                  <img src={heroImages[0]} alt="Wonder Christian Centre gathering" loading="eager" decoding="async" />
+                  <img src={heroImages[0]} alt="Wonder Christian Centre worship gathering" loading="eager" decoding="async" />
                 </figure>
               </Reveal>
               <Reveal delay={130}>
                 <figure className="about-media about-media--secondary surface-card">
-                  <img src={heroImages[1]} alt="Church moment at Wonder Christian Centre" loading="lazy" decoding="async" />
+                  <img src={heroImages[1]} alt="Church worship moment at Wonder Christian Centre" loading="lazy" decoding="async" />
                 </figure>
               </Reveal>
               <Reveal delay={190}>
                 <figure className="about-media about-media--accent surface-card">
-                  <img src={heroImages[2]} alt="Wonder Christian Centre worship moment" loading="lazy" decoding="async" />
+                  <img src={heroImages[2]} alt="Wonder Christian Centre community worship moment" loading="lazy" decoding="async" />
                 </figure>
               </Reveal>
             </div>
@@ -125,17 +125,17 @@ const About = () => {
           <div className="about-mosaic">
             <Reveal>
               <figure className="about-mosaic__item about-mosaic__item--banner surface-card">
-                <img src={heroImages[6]} alt="Wonder Christian Centre ministry banner" loading="lazy" decoding="async" />
+                <img src={heroImages[6]} alt="Wonder Christian Centre ministry banner display" loading="lazy" decoding="async" />
               </figure>
             </Reveal>
             <Reveal delay={80}>
               <figure className="about-mosaic__item about-mosaic__item--square surface-card">
-                <img src={heroImages[7]} alt="Wonder Christian Centre identity artwork" loading="lazy" decoding="async" />
+                <img src={heroImages[7]} alt="Wonder Christian Centre identity artwork logo" loading="lazy" decoding="async" />
               </figure>
             </Reveal>
             <Reveal delay={140}>
               <figure className="about-mosaic__item about-mosaic__item--portrait surface-card">
-                <img src={heroImages[3]} alt="Wonder Christian Centre ministry event" loading="lazy" decoding="async" />
+                <img src={heroImages[3]} alt="Wonder Christian Centre ministry event gathering" loading="lazy" decoding="async" />
               </figure>
             </Reveal>
             <Reveal delay={200}>

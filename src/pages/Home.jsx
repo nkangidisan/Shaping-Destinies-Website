@@ -156,8 +156,8 @@ const Home = () => {
             <span className="hero-home__eyebrow">Welcome to</span>
             <div className="hero-home__intro">
               <img
-src="/2024/08/icon.png"
-                alt="Wonder Christian Centre icon"
+                src="/2024/08/icon.png"
+                alt="Wonder Christian Centre icon logo"
                 width="74"
                 height="74"
                 fetchPriority="high"
@@ -191,8 +191,8 @@ src="/2024/08/icon.png"
                   <div className="hero-home__logo-orbit hero-home__logo-orbit--one" />
                   <div className="hero-home__logo-orbit hero-home__logo-orbit--two" />
                   <img
-                    src="/2024/08/icon.png"
-                    alt="Wonder Christian Centre logo"
+                    src="/2024/08/heroimage.jpeg"
+                    alt="Wonder Christian Centre logo mark"
                     className="hero-home__logo-mark"
                     loading="eager"
                     decoding="async"
@@ -240,7 +240,7 @@ src="/2024/08/icon.png"
           <div className="leader-layout">
             <Reveal className="leader-visual">
               <div className="leader-visual__frame">
-                <img src="/2024/10/benjamin.jpg" alt="Benjamin Kiconco" loading="lazy" decoding="async" />
+                <img src="/2024/10/benjamin.jpg" alt="Pastor Benjamin Kiconco portrait" loading="lazy" decoding="async" />
               </div>
             </Reveal>
 
@@ -275,7 +275,7 @@ src="/2024/08/icon.png"
           <Reveal>
             <a href={featuredMinistry.href} className="featured-ministry surface-card">
               <div className="featured-ministry__media">
-                <img src={featuredMinistry.image} alt={featuredMinistry.title} loading="lazy" decoding="async" />
+                <img src={featuredMinistry.image} alt="Back to Eden marrieds ministry conference at Wonder Christian Centre" loading="lazy" decoding="async" />
               </div>
               <div className="featured-ministry__body">
                 <h3>{featuredMinistry.title}</h3>
@@ -289,7 +289,7 @@ src="/2024/08/icon.png"
               <Reveal key={ministry.title} delay={index * 70}>
                 <article className="ministry-card surface-card">
                   <div className={`ministry-card__media ${ministry.imageFit === 'contain' ? 'is-contain' : ''}`}>
-                    <img src={ministry.image} alt={ministry.title} loading="lazy" decoding="async" />
+                    <img src={ministry.image} alt={`${ministry.title} ministry at Wonder Christian Centre`} loading="lazy" decoding="async" />
                   </div>
                   <div className="ministry-card__body">
                     <h3>{ministry.title}</h3>

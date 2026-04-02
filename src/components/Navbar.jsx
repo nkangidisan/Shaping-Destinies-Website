@@ -149,13 +149,13 @@ const Navbar = () => {
             </a>
           </div>
           <div className="header-topbar__socials">
-            <a href="https://www.facebook.com/wccug" aria-label="Facebook" target="_blank" rel="noreferrer">
+            <a href="https://www.facebook.com/share/1CTnt7Na5A/" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
               <HeaderSocialIcon type="facebook" />
             </a>
-            <a href="https://www.instagram.com/wccug" aria-label="Instagram" target="_blank" rel="noreferrer">
+            <a href="https://www.instagram.com/benjaminkiconco?igsh=Z2VqZ2xiYzR3Ym5o" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
               <HeaderSocialIcon type="instagram" />
             </a>
-            <a href="https://youtube.com/@wccug?si=P8YJjF2mwdE4fFoR" aria-label="YouTube" target="_blank" rel="noreferrer">
+            <a href="https://youtube.com/@wccug?si=P8YJjF2mwdE4fFoR" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
               <HeaderSocialIcon type="youtube" />
             </a>
           </div>
@@ -166,7 +166,7 @@ const Navbar = () => {
         <div className="container header-nav">
           <Link to="/" className="header-brand" aria-label="Wonder Christian Centre home">
             <img
-src="/2024/08/icon.png"
+              src="/2024/08/icon.png"
               alt="Wonder Christian Centre icon"
               width="48"
               height="48"
@@ -370,7 +370,7 @@ src="/2024/08/icon.png"
 
         .header-brand img {
           width: 3rem;
-          height: 3rem;
+          height="3rem"
           border-radius: 50%;
           object-fit: cover;
           box-shadow: 0 10px 30px rgba(16, 58, 113, 0.15);
@@ -460,7 +460,7 @@ src="/2024/08/icon.png"
         .header-link:hover::after,
         .header-link--button:hover::after,
         .header-item:hover .header-link::after,
-        .header-item:hover .header-link--button::after {
+        .header-link--button::after {
           transform: scaleX(1);
         }
 

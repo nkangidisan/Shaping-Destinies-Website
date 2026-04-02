@@ -36,22 +36,22 @@ function FooterSocialIcon({ type }) {
   if (type === 'whatsapp') {
     return (
       <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
-        <path d="M20.52 3.48A11.78 11.78 0 0 0 12.14 0C5.62 0 .31 5.3.31 11.83c0 2.08.54 4.11 1.56 5.89L0 24l6.46-1.69a11.8 11.8 0 0 0 5.68 1.45h.01c6.52 0 11.83-5.3 11.83-11.83 0-3.16-1.23-6.12-3.46-8.45Zm-8.38 18.3h-.01a9.84 9.84 0 0 1-5.01-1.37l-.36-.21-3.83 1 1.02-3.73-.24-.38a9.84 9.84 0 0 1-1.52-5.27c0-5.43 4.42-9.85 9.86-9.85 2.63 0 5.1 1.02 6.95 2.89a9.79 9.79 0 0 1 2.88 6.96c0 5.43-4.42 9.85-9.84 9.85Zm5.4-7.37c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.66.15-.2.3-.76.97-.94 1.16-.17.2-.34.22-.64.08-.3-.15-1.25-.46-2.39-1.46-.89-.79-1.5-1.76-1.67-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.34.44-.51.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.66-1.6-.91-2.2-.23-.55-.47-.47-.66-.48h-.56c-.2 0-.51.07-.78.37s-1.02 1-.1 2.45c.92 1.46 1.31 1.97 2.82 3.27 1.52 1.31 2.91 1.71 3.94 1.91 1.03.2 1.97.17 2.71.1.83-.08 1.77-.72 2.02-1.41.25-.69.25-1.28.17-1.4-.08-.12-.28-.2-.57-.35Z" />
+        <path d="M20.52 3.48A11.78 11.78 0 0 0 12.14 0C5.62 0 .31 5.3 .31 11.83c0 2.08 .54 4.11 1.56 5.89L0 24l6.46-1.69a11.8 11.8 0 0 0 5.68 1.45h.01c6.52 0 11.83-5.3 11.83-11.83 0-3.16-1.23-6.12-3.46-8.45Zm-8.38 18.3h-.01a9.84 9.84 0 0 1-5.01-1.37l-.36-.21-3.83 1 1.02-3.73-.24-.38a9.84 9.84 0 0 1-1.52-5.27c0-5.43 4.42-9.85 9.86-9.85 2.63 0 5.1 1.02 6.95 2.89a9.79 9.79 0 0 1 2.88 6.96c0 5.43-4.42 9.85-9.84 9.85Zm5.4-7.37c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.66 .15-.2 .3-.76 .97-.94 1.16-.17 .2-.34 .22-.64 .08-.3-.15-1.25-.46-2.39-1.46-.89-.79-1.5-1.76-1.67-2.06-.17-.3-.02-.46 .13-.61 .13-.13 .3-.34 .44-.51 .15-.17 .2-.3 .3-.5 .1-.2 .05-.37-.02-.52-.07-.15-.66-1.6-.91-2.2-.23-.55-.47-.47-.66-.48h-.56c-.2 0-.51 .07-.78 .37s-1.02 1-.1 2.45c .92 1.46 1.31 1.97 2.82 3.27 1.52 1.31 2.91 1.71 3.94 1.91 1.03 .2 1.97 .17 2.71 .1 .83-.08 1.77-.72 2.02-1.41 .25-.69 .25-1.28 .17-1.4-.08-.12-.28-.2-.57-.35Z" />
       </svg>
     )
   }
 
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
-      <path d="M12 2a10 10 0 0 0-3.52 19.36V14.5H6.1v-2.9h2.38V9.4c0-2.35 1.4-3.65 3.54-3.65 1.02 0 2.08.18 2.08.18v2.3h-1.17c-1.15 0-1.5.72-1.5 1.46v1.75h2.56l-.41 2.9h-2.15v6.86A10 10 0 0 0 12 2Z" />
+      <path d="M12 2a10 10 0 0 0-3.52 19.36V14.5H6.1v-2.9h2.38V9.4c0-2.35 1.4-3.65 3.54-3.65 1.02 0 2.08 .18 2.08 .18v2.3h-1.17c-1.15 0-1.5 .72-1.5 1.46v1.75h2.56l-.41 2.9h-2.15v6.86A10 10 0 0 0 12 2Z" />
     </svg>
   )
 }
 
 const footerLinks = [
-  { label: 'Team Leader', href: '/#benjamin' },
-  { label: 'Our Ministries', href: '/#ministries' },
-  { label: 'Ambassadors of Hope', href: '/#quick-links' },
+  { label: 'Team Leader', href: '/team-leader' },
+  { label: 'Our Ministries', href: '/about' },
+  { label: 'Ambassadors of Hope', href: '/outreach' },
   { label: 'Contact Us', href: '/contact' },
 ]
 
@@ -61,7 +61,7 @@ const Footer = () => {
       <div className="container site-footer__grid">
         <div className="site-footer__brand">
           <img
-src="/2024/08/icon.png"
+            src="/2024/08/icon.png"
             alt="Wonder Christian Centre icon"
             width="68"
             height="68"
@@ -74,19 +74,19 @@ src="/2024/08/icon.png"
             Word of His Grace and Faith, and the ministry of miracles, signs and wonders.
           </p>
           <div className="site-footer__socials">
-            <a href="https://www.facebook.com/wccug" aria-label="Facebook" target="_blank" rel="noreferrer">
+            <a href="https://www.facebook.com/share/1CTnt7Na5A/" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
               <FooterSocialIcon type="facebook" />
             </a>
-            <a href="https://www.tiktok.com/@wccug?_r=1&_t=ZS-956s5H5QE0z" aria-label="TikTok" target="_blank" rel="noreferrer">
+            <a href="https://www.tiktok.com/@wccug?_r=1&_t=ZS-956s5H5QE0z" aria-label="TikTok" target="_blank" rel="noopener noreferrer">
               <FooterSocialIcon type="tiktok" />
             </a>
-            <a href="https://youtube.com/@wccug?si=P8YJjF2mwdE4fFoR" aria-label="YouTube" target="_blank" rel="noreferrer">
+            <a href="https://youtube.com/@wccug?si=P8YJjF2mwdE4fFoR" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
               <FooterSocialIcon type="youtube" />
             </a>
-            <a href="https://www.instagram.com/wccug" aria-label="Instagram" target="_blank" rel="noreferrer">
+            <a href="https://www.instagram.com/benjaminkiconco?igsh=Z2VqZ2xiYzR3Ym5o" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
               <FooterSocialIcon type="instagram" />
             </a>
-            <a href="https://wa.me/256707000999" aria-label="WhatsApp" target="_blank" rel="noreferrer">
+            <a href="https://wa.me/256707000999" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer">
               <FooterSocialIcon type="whatsapp" />
             </a>
           </div>

@@ -1,5 +1,5 @@
 export const SITE_NAME = 'Wonder Christian Centre'
-export const DEFAULT_SITE_URL = 'https://www.example.com'
+export const DEFAULT_SITE_URL = 'https://www.shapingdestinies.com'
 export const DEFAULT_OG_IMAGE = '/2024/08/DSC_0120.jpg'
 
 export const ORGANIZATION_DATA = {
@@ -360,6 +360,30 @@ export const seoRoutes = [
       { name: 'Home', path: '/' },
       { name: 'Gallery', path: '/gallery' },
     ],
+    faqSection: {
+      eyebrow: 'Gallery FAQ',
+      title: 'Frequently asked gallery questions',
+      intro: 'Quick answers about viewing church moments, downloading photos, and ministry highlights.',
+      items: [
+        {
+          question: 'What does the Wonder Christian Centre gallery show?',
+          answer: 'The gallery showcases worship services, ministry events, outreach programs, crusades, community gatherings, and key moments from Wonder Christian Centre ministry in Uganda.',
+        },
+        {
+          question: 'Can I download photos from the gallery?',
+          answer: 'Gallery images are available for personal use and sharing to promote the gospel. Right-click to save or contact us for high-resolution ministry images.',
+        },
+        {
+          question: 'How often is the gallery updated?',
+          answer: 'The gallery is regularly updated with recent worship services, crusades, outreach events, and special ministry moments from Wonder Christian Centre.',
+        },
+      ],
+      links: [
+        { label: 'See recent outreach', href: '/outreach' },
+        { label: 'Explore women ministry', href: '/women-of-destiny' },
+        { label: 'View team leader', href: '/team-leader' },
+      ],
+    },
   },
   {
     path: '/women-of-destiny',

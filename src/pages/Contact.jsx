@@ -77,8 +77,8 @@ function Reveal({ children, delay = 0, className = '' }) {
 const socialLinks = [
   { label: 'TikTok', href: 'https://www.tiktok.com/@wccug?_r=1&_t=ZS-956s5H5QE0z', icon: 'tiktok' },
   { label: 'YouTube', href: 'https://youtube.com/@wccug?si=P8YJjF2mwdE4fFoR', icon: 'youtube' },
-  { label: 'Facebook', href: 'https://www.facebook.com/wccug', icon: 'facebook' },
-  { label: 'Instagram', href: 'https://www.instagram.com/wccug', icon: 'instagram' },
+  { label: 'Facebook', href: 'https://www.facebook.com/benjaminkiconco', icon: 'facebook' },
+  { label: 'Instagram', href: 'https://www.instagram.com/benjaminkiconco', icon: 'instagram' },
   { label: 'WhatsApp', href: 'https://wa.me/256707000999', icon: 'whatsapp' },
 ]
 

@@ -137,7 +137,7 @@ const Gallery = () => {
             {galleryImages.map((image, index) => (
               <Reveal key={image} delay={(index % 4) * 70}>
                 <figure className={`gallery-card surface-card ${index % 9 === 0 ? 'gallery-card--featured' : ''}`}>
-                  <img src={image} alt={`Gallery ${index + 1}`} loading="lazy" decoding="async" />
+                  <img src={image} alt={`Wonder Christian Centre worship and ministry gallery image ${index + 1}`} loading="lazy" decoding="async" />
                 </figure>
               </Reveal>
             ))}
