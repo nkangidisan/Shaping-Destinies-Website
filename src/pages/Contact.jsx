@@ -6,7 +6,7 @@ import { seoRouteMap } from '../seo/routes'
 
 const EMAILJS_SERVICE_ID = 'service_l18531t'
 const EMAILJS_TEMPLATE_ID = 'template_2b8ul5b'
-const EMAILJS_PUBLIC_KEY = 'HblBWfVl6J9-lJLpi'
+const EMAILJS_PUBLIC_KEY = 'HblBWfVI6J9-IJLpi'
 
 function SocialIcon({ type }) {
   if (type === 'tiktok') {
