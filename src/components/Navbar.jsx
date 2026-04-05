@@ -63,7 +63,7 @@ const navItems = [
 ]
 
 function NavAnchor({ href, children, className, onClick }) {
-  if (href.includes('#')) {
+  if (href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:')) {
     return (
       <a href={href} className={className} onClick={onClick}>
         {children}

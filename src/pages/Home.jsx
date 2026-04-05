@@ -114,7 +114,7 @@ function Reveal({ children, delay = 0, className = '' }) {
 }
 
 function SmartLink({ href, className, children }) {
-  if (href.includes('#')) {
+  if (href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:')) {
     return (
       <a href={href} className={className}>
         {children}
@@ -273,7 +273,7 @@ const Home = () => {
           </Reveal>
 
           <Reveal>
-            <a href={featuredMinistry.href} className="featured-ministry surface-card">
+            <Link to={featuredMinistry.href} className="featured-ministry surface-card">
               <div className="featured-ministry__media">
                 <img src={featuredMinistry.image} alt="Back to Eden marrieds ministry conference at Wonder Christian Centre" loading="lazy" decoding="async" />
               </div>
@@ -281,7 +281,7 @@ const Home = () => {
                 <h3>{featuredMinistry.title}</h3>
                 <p>{featuredMinistry.description}</p>
               </div>
-            </a>
+            </Link>
           </Reveal>
 
           <div className="ministries-grid">
@@ -393,7 +393,7 @@ const Home = () => {
                 <p>
                   We believe that everyone has a part to play in God’s kingdom. Whether through prayer, volunteering, or financial support, your involvement can make a lasting impact. Join us in spreading the gospel, serving the community, and shaping destinies.
                 </p>
-                <a href="/give" className="button button-primary">Ways to Give</a>
+                <Link to="/give" className="button button-primary">Ways to Give</Link>
               </div>
             </article>
           </Reveal>

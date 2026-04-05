@@ -1,7 +1,12 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import emailjs from '@emailjs/browser'
 import { Mail, MapPin, MessageCircle, Phone } from 'lucide-react'
 import FaqSection from '../components/FaqSection'
 import { seoRouteMap } from '../seo/routes'
+
+const EMAILJS_SERVICE_ID = 'service_l18531t'
+const EMAILJS_TEMPLATE_ID = 'template_2b8ul5b'
+const EMAILJS_PUBLIC_KEY = 'HblBWfVl6J9-lJLpi'
 
 function SocialIcon({ type }) {
   if (type === 'tiktok') {
@@ -88,6 +93,37 @@ const contactImages = [
 ]
 
 const Contact = () => {
+  const formRef = useRef(null)
+  const [submitState, setSubmitState] = useState({ type: '', message: '' })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+
+    if (!formRef.current || isSubmitting) {
+      return
+    }
+
+    setIsSubmitting(true)
+    setSubmitState({ type: '', message: '' })
+
+    try {
+      await emailjs.sendForm(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        formRef.current,
+        EMAILJS_PUBLIC_KEY,
+      )
+
+      formRef.current.reset()
+      setSubmitState({ type: 'success', message: 'Message sent successfully.' })
+    } catch (error) {
+      setSubmitState({ type: 'error', message: 'Failed to send message. Please try again.' })
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   return (
     <div className="contact-page">
       <section className="contact-hero">
@@ -183,29 +219,36 @@ const Contact = () => {
             <Reveal delay={120}>
               <article className="contact-form-card surface-card">
                 <h2>You can also use the form below to contact us:</h2>
-                <form className="contact-form">
+                <form ref={formRef} className="contact-form" onSubmit={handleSubmit}>
                   <label className="contact-field">
                     <span>Name</span>
-                    <input type="text" placeholder="Name" autoComplete="name" inputMode="text" />
+                    <input type="text" name="from_name" placeholder="Name" autoComplete="name" inputMode="text" required />
                   </label>
                   <label className="contact-field">
                     <span>Email</span>
-                    <input type="email" placeholder="Email" autoComplete="email" inputMode="email" />
+                    <input type="email" name="from_email" placeholder="Email" autoComplete="email" inputMode="email" required />
                   </label>
                   <label className="contact-field">
                     <span>Phone Number</span>
-                    <input type="tel" placeholder="Phone Number" autoComplete="tel" inputMode="tel" />
+                    <input type="tel" name="phone_number" placeholder="Phone Number" autoComplete="tel" inputMode="tel" />
                   </label>
                   <label className="contact-field contact-field--full">
                     <span>Message</span>
-                    <textarea rows="6" placeholder="Message" />
+                    <textarea rows="6" name="message" placeholder="Message" required />
                   </label>
                   <label className="contact-checkbox">
-                    <input type="checkbox" />
+                    <input type="checkbox" name="monthly_updates" />
                     <span>SIGN UP FOR MONTHLY EMAIL UPDATES</span>
                   </label>
+                  {submitState.message ? (
+                    <p className={`contact-submit-message ${submitState.type === 'error' ? 'is-error' : 'is-success'}`}>
+                      {submitState.message}
+                    </p>
+                  ) : null}
                   <div className="contact-actions">
-                    <button type="submit" className="button button-primary">Send Message</button>
+                    <button type="submit" className="button button-primary" disabled={isSubmitting}>
+                      {isSubmitting ? 'Sending...' : 'Send Message'}
+                    </button>
                   </div>
                 </form>
               </article>
@@ -582,6 +625,20 @@ const Contact = () => {
         .contact-actions {
           display: flex;
           justify-content: flex-start;
+        }
+
+        .contact-submit-message {
+          margin: 0;
+          font-size: 0.94rem;
+          font-weight: 700;
+        }
+
+        .contact-submit-message.is-success {
+          color: #1f6f2a;
+        }
+
+        .contact-submit-message.is-error {
+          color: #b42318;
         }
 
         @media (min-width: 481px) {

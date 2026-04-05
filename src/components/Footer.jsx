@@ -2,7 +2,7 @@ import { Mail, MapPin, Phone } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 function SmartLink({ href, className, children }) {
-  if (href.includes('#')) {
+  if (href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:')) {
     return (
       <a href={href} className={className || ''}>
         {children}

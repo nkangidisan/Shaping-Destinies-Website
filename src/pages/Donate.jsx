@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom'
 import FaqSection from '../components/FaqSection'
 import { seoRouteMap } from '../seo/routes'
 
@@ -96,8 +97,8 @@ const Donate = () => {
                 <article className="partnership-cta surface-card">
                   <p>For Partnership, please get in touch with us.</p>
                   <div className="partnership-cta__actions">
-                    <a href="/contact" className="button button-primary">Contact</a>
-                    <a href="/give" className="button button-outline">Give</a>
+                    <Link to="/contact" className="button button-primary">Contact</Link>
+                    <Link to="/give" className="button button-outline">Give</Link>
                   </div>
                   <strong>Together, we do great things for God.</strong>
                 </article>
