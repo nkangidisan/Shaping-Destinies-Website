@@ -5,7 +5,8 @@ import FaqSection from '../components/FaqSection'
 import { seoRouteMap } from '../seo/routes'
 
 const EMAILJS_SERVICE_ID = 'service_l18531t'
-const EMAILJS_TEMPLATE_ID = 'template_2b8ul5b'
+const EMAILJS_ADMIN_TEMPLATE_ID = 'template_zwiecxu'
+const EMAILJS_AUTO_REPLY_TEMPLATE_ID = 'template_2b8ul5b'
 const EMAILJS_PUBLIC_KEY = 'HblBWfVI6J9-IJLpi'
 
 function SocialIcon({ type }) {
@@ -104,20 +105,42 @@ const Contact = () => {
       return
     }
 
+    const formData = new FormData(formRef.current)
+    const name = String(formData.get('from_name') || '').trim()
+    const email = String(formData.get('from_email') || '').trim()
+    const phone = String(formData.get('phone') || '').trim()
+    const message = String(formData.get('message') || '').trim()
+
+    const templateParams = {
+      from_name: name,
+      from_email: email,
+      phone,
+      message,
+    }
+
     setIsSubmitting(true)
     setSubmitState({ type: '', message: '' })
 
     try {
-      await emailjs.sendForm(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        formRef.current,
-        EMAILJS_PUBLIC_KEY,
-      )
+      await Promise.all([
+        emailjs.send(
+          EMAILJS_SERVICE_ID,
+          EMAILJS_ADMIN_TEMPLATE_ID,
+          templateParams,
+          EMAILJS_PUBLIC_KEY,
+        ),
+        emailjs.send(
+          EMAILJS_SERVICE_ID,
+          EMAILJS_AUTO_REPLY_TEMPLATE_ID,
+          templateParams,
+          EMAILJS_PUBLIC_KEY,
+        ),
+      ])
 
       formRef.current.reset()
       setSubmitState({ type: 'success', message: 'Message sent successfully.' })
     } catch (error) {
+      console.error('EmailJS send failed:', error)
       setSubmitState({ type: 'error', message: 'Failed to send message. Please try again.' })
     } finally {
       setIsSubmitting(false)
@@ -230,7 +253,7 @@ const Contact = () => {
                   </label>
                   <label className="contact-field">
                     <span>Phone Number</span>
-                    <input type="tel" name="phone_number" placeholder="Phone Number" autoComplete="tel" inputMode="tel" />
+                    <input type="tel" name="phone" placeholder="Phone Number" autoComplete="tel" inputMode="tel" />
                   </label>
                   <label className="contact-field contact-field--full">
                     <span>Message</span>
