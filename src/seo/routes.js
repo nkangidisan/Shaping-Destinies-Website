@@ -341,6 +341,26 @@ export const seoRoutes = [
     },
   },
   {
+    path: '/success',
+    title: 'Giving Success | Wonder Christian Centre',
+    description:
+      'Thank you for supporting Wonder Christian Centre. Your giving helps advance ministry, outreach, discipleship, and compassion work.',
+    keywords: [
+      'Wonder Christian Centre giving success',
+      'church donation confirmation',
+      'ministry support confirmation',
+      'Wonder Christian Centre thank you',
+    ],
+    image: '/2024/11/_MG_1017.jpg.jpeg',
+    type: 'WebPage',
+    changefreq: 'monthly',
+    priority: '0.3',
+    breadcrumbs: [
+      { name: 'Home', path: '/' },
+      { name: 'Giving Success', path: '/success' },
+    ],
+  },
+  {
     path: '/gallery',
     title: 'Wonder Christian Centre Gallery | Worship and Outreach',
     description:

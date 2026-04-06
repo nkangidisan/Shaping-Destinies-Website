@@ -1,11 +1,34 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { loadStripe } from '@stripe/stripe-js'
 import FaqSection from '../components/FaqSection'
 import { seoRouteMap } from '../seo/routes'
+import {
+  COUNTRY_OPTIONS,
+  CURRENCY_OPTIONS,
+  GIVING_TYPES,
+  formatDonationAmount,
+} from '../data/givingOptions'
+
+const stripePromise = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
+  ? loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
+  : null
 
 const giveImages = [
   '/2024/09/MG_2977.jpg',
   '/2024/11/_MG_1017.jpg.jpeg',
 ]
+
+const initialFormData = {
+  firstName: '',
+  lastName: '',
+  phone: '',
+  email: '',
+  country: '',
+  givingType: '',
+  currency: '',
+  amount: '',
+  acceptedTerms: false,
+}
 
 function useReveal() {
   const ref = useRef(null)
@@ -42,7 +65,125 @@ function Reveal({ children, delay = 0, className = '' }) {
   )
 }
 
+function validateGiveForm(formData) {
+  const nextErrors = {}
+  const normalizedEmail = formData.email.trim()
+  const numericAmount = Number(formData.amount)
+
+  if (!formData.firstName.trim()) nextErrors.firstName = 'First name is required.'
+  if (!formData.lastName.trim()) nextErrors.lastName = 'Last name is required.'
+  if (!formData.phone.trim()) nextErrors.phone = 'Phone number is required.'
+  if (!normalizedEmail) {
+    nextErrors.email = 'Email address is required.'
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+    nextErrors.email = 'Enter a valid email address.'
+  }
+  if (!formData.country) nextErrors.country = 'Please select a country.'
+  if (!formData.givingType) nextErrors.givingType = 'Please choose a giving description.'
+  if (!formData.currency) nextErrors.currency = 'Please choose a currency.'
+  if (!formData.amount) {
+    nextErrors.amount = 'Amount is required.'
+  } else if (!Number.isFinite(numericAmount) || numericAmount <= 0) {
+    nextErrors.amount = 'Amount must be greater than zero.'
+  }
+  if (!formData.acceptedTerms) nextErrors.acceptedTerms = 'Please accept the terms to continue.'
+
+  return nextErrors
+}
+
 const Give = () => {
+  const [formData, setFormData] = useState(initialFormData)
+  const [fieldErrors, setFieldErrors] = useState({})
+  const [submitError, setSubmitError] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const totalAmount = formatDonationAmount(formData.amount, formData.currency)
+
+  const handleInputChange = (event) => {
+    const { name, type, value, checked } = event.target
+
+    setFormData((currentData) => ({
+      ...currentData,
+      [name]: type === 'checkbox' ? checked : value,
+    }))
+
+    setFieldErrors((currentErrors) => {
+      if (!currentErrors[name]) {
+        return currentErrors
+      }
+
+      const nextErrors = { ...currentErrors }
+      delete nextErrors[name]
+      return nextErrors
+    })
+
+    setSubmitError('')
+  }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+
+    const validationErrors = validateGiveForm(formData)
+
+    if (Object.keys(validationErrors).length > 0) {
+      setFieldErrors(validationErrors)
+      setSubmitError('Please review the highlighted fields and try again.')
+      return
+    }
+
+    if (!stripePromise) {
+      setSubmitError('Card payments are not configured yet. Please try again shortly.')
+      return
+    }
+
+    setIsSubmitting(true)
+    setSubmitError('')
+    setFieldErrors({})
+
+    try {
+      const response = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName: formData.firstName.trim(),
+          lastName: formData.lastName.trim(),
+          phone: formData.phone.trim(),
+          email: formData.email.trim(),
+          country: formData.country,
+          givingType: formData.givingType,
+          currency: formData.currency,
+          amount: Number(formData.amount),
+        }),
+      })
+
+      const data = await response.json().catch(() => ({}))
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Unable to start checkout. Please try again.')
+      }
+
+      const stripe = await stripePromise
+
+      if (!stripe) {
+        throw new Error('Stripe could not be initialized.')
+      }
+
+      const { error } = await stripe.redirectToCheckout({ sessionId: data.id })
+
+      if (error) {
+        throw new Error(error.message || 'Unable to redirect to checkout.')
+      }
+    } catch (error) {
+      setSubmitError(error.message || 'Something went wrong. Please try again.')
+      setIsSubmitting(false)
+    }
+  }
+
+  const getFieldClassName = (fieldName, extraClassName = '') =>
+    `${extraClassName} ${fieldErrors[fieldName] ? 'give-field--error' : ''}`.trim()
+
   return (
     <div className="give-page">
       <section className="give-hero">
@@ -126,66 +267,140 @@ const Give = () => {
                     <p>Use the form below to support Wonder Christian Centre securely and directly.</p>
                   </div>
 
-                  <form className="give-form__grid">
-                    <label className="give-field">
+                  <form className="give-form__grid" onSubmit={handleSubmit} noValidate>
+                    <label className={getFieldClassName('firstName', 'give-field')}>
                       <span>First Name</span>
-                      <input type="text" placeholder="Input First Name..." />
+                      <input
+                        type="text"
+                        name="firstName"
+                        placeholder="Input First Name..."
+                        value={formData.firstName}
+                        onChange={handleInputChange}
+                        aria-invalid={Boolean(fieldErrors.firstName)}
+                      />
+                      {fieldErrors.firstName ? <small className="give-field__error">{fieldErrors.firstName}</small> : null}
                     </label>
-                    <label className="give-field">
+                    <label className={getFieldClassName('lastName', 'give-field')}>
                       <span>Last Name</span>
-                      <input type="text" placeholder="Input Last Name..." />
+                      <input
+                        type="text"
+                        name="lastName"
+                        placeholder="Input Last Name..."
+                        value={formData.lastName}
+                        onChange={handleInputChange}
+                        aria-invalid={Boolean(fieldErrors.lastName)}
+                      />
+                      {fieldErrors.lastName ? <small className="give-field__error">{fieldErrors.lastName}</small> : null}
                     </label>
-                    <label className="give-field">
+                    <label className={getFieldClassName('phone', 'give-field')}>
                       <span>Phone Number</span>
-                      <input type="tel" placeholder="Input Phone Number..." />
+                      <input
+                        type="tel"
+                        name="phone"
+                        placeholder="Input Phone Number..."
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        aria-invalid={Boolean(fieldErrors.phone)}
+                      />
+                      {fieldErrors.phone ? <small className="give-field__error">{fieldErrors.phone}</small> : null}
                     </label>
-                    <label className="give-field">
+                    <label className={getFieldClassName('email', 'give-field')}>
                       <span>Email Address</span>
-                      <input type="email" placeholder="Input Email Address..." />
+                      <input
+                        type="email"
+                        name="email"
+                        placeholder="Input Email Address..."
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        aria-invalid={Boolean(fieldErrors.email)}
+                      />
+                      {fieldErrors.email ? <small className="give-field__error">{fieldErrors.email}</small> : null}
                     </label>
-                    <label className="give-field">
+                    <label className={getFieldClassName('country', 'give-field')}>
                       <span>Select Country</span>
-                      <select defaultValue="">
+                      <select
+                        name="country"
+                        value={formData.country}
+                        onChange={handleInputChange}
+                        aria-invalid={Boolean(fieldErrors.country)}
+                      >
                         <option value="" disabled>Select Country</option>
-                        <option>Uganda</option>
-                        <option>Kenya</option>
-                        <option>Tanzania</option>
-                        <option>Rwanda</option>
+                        {COUNTRY_OPTIONS.map((country) => (
+                          <option key={country} value={country}>{country}</option>
+                        ))}
                       </select>
+                      {fieldErrors.country ? <small className="give-field__error">{fieldErrors.country}</small> : null}
                     </label>
-                    <label className="give-field">
-                      <span>Select Item Description</span>
-                      <select defaultValue="">
-                        <option value="" disabled>Select Item Description</option>
-                        <option>Give Directly</option>
-                        <option>Partnership</option>
-                        <option>Ministry Support</option>
+                    <label className={getFieldClassName('givingType', 'give-field')}>
+                      <span>Giving Description</span>
+                      <select
+                        name="givingType"
+                        value={formData.givingType}
+                        onChange={handleInputChange}
+                        aria-invalid={Boolean(fieldErrors.givingType)}
+                      >
+                        <option value="" disabled>Select Giving Description</option>
+                        {GIVING_TYPES.map((givingType) => (
+                          <option key={givingType} value={givingType}>{givingType}</option>
+                        ))}
                       </select>
+                      {fieldErrors.givingType ? <small className="give-field__error">{fieldErrors.givingType}</small> : null}
                     </label>
-                    <label className="give-field">
+                    <label className={getFieldClassName('currency', 'give-field')}>
                       <span>Select Currency</span>
-                      <select defaultValue="">
+                      <select
+                        name="currency"
+                        value={formData.currency}
+                        onChange={handleInputChange}
+                        aria-invalid={Boolean(fieldErrors.currency)}
+                      >
                         <option value="" disabled>Select Currency</option>
-                        <option>UGX</option>
-                        <option>USD</option>
-                        <option>EUR</option>
-                        <option>GBP</option>
+                        {CURRENCY_OPTIONS.map((currency) => (
+                          <option key={currency.code} value={currency.code}>{currency.label}</option>
+                        ))}
                       </select>
+                      {fieldErrors.currency ? <small className="give-field__error">{fieldErrors.currency}</small> : null}
                     </label>
-                    <label className="give-field">
+                    <label className={getFieldClassName('amount', 'give-field')}>
                       <span>Amount</span>
-                      <input type="number" placeholder="Input Amount..." />
+                      <input
+                        type="number"
+                        name="amount"
+                        min="0"
+                        step="0.01"
+                        placeholder="Input Amount..."
+                        value={formData.amount}
+                        onChange={handleInputChange}
+                        aria-invalid={Boolean(fieldErrors.amount)}
+                      />
+                      {fieldErrors.amount ? <small className="give-field__error">{fieldErrors.amount}</small> : null}
                     </label>
                     <label className="give-field give-field--full">
                       <span>Total Amount</span>
-                      <input type="text" placeholder="Total Amount" />
+                      <input type="text" value={totalAmount || 'Total Amount'} readOnly />
                     </label>
-                    <label className="give-checkbox">
-                      <input type="checkbox" />
+                    <label className={`give-checkbox ${fieldErrors.acceptedTerms ? 'give-checkbox--error' : ''}`.trim()}>
+                      <input
+                        type="checkbox"
+                        name="acceptedTerms"
+                        checked={formData.acceptedTerms}
+                        onChange={handleInputChange}
+                        aria-invalid={Boolean(fieldErrors.acceptedTerms)}
+                      />
                       <span>I accept the terms and conditions</span>
                     </label>
+                    {fieldErrors.acceptedTerms ? (
+                      <p className="give-checkbox__error">{fieldErrors.acceptedTerms}</p>
+                    ) : null}
+                    {submitError ? (
+                      <div className="give-status give-status--error" role="alert" aria-live="polite">
+                        {submitError}
+                      </div>
+                    ) : null}
                     <div className="give-actions">
-                      <button type="submit" className="button button-primary">Give Directly</button>
+                      <button type="submit" className="button button-primary" disabled={isSubmitting}>
+                        {isSubmitting ? 'Redirecting...' : 'Give by Card'}
+                      </button>
                     </div>
                   </form>
                 </article>
@@ -413,6 +628,8 @@ const Give = () => {
 
         .give-field--full,
         .give-checkbox,
+        .give-checkbox__error,
+        .give-status,
         .give-actions {
           grid-column: span 2;
         }
@@ -444,6 +661,19 @@ const Give = () => {
           box-shadow: 0 0 0 4px rgba(181, 214, 58, 0.12);
         }
 
+        .give-field--error input,
+        .give-field--error select {
+          border-color: rgba(194, 54, 22, 0.45);
+          box-shadow: 0 0 0 4px rgba(194, 54, 22, 0.08);
+        }
+
+        .give-field__error,
+        .give-checkbox__error {
+          margin: 0;
+          font-size: 0.85rem;
+          color: #b42318;
+        }
+
         .give-checkbox {
           display: inline-flex;
           align-items: center;
@@ -457,9 +687,28 @@ const Give = () => {
           accent-color: #b5d63a;
         }
 
+        .give-checkbox--error span {
+          color: #8f1d16;
+        }
+
+        .give-status {
+          padding: 0.9rem 1rem;
+          border-radius: 0.95rem;
+          border: 1px solid rgba(194, 54, 22, 0.18);
+          background: rgba(194, 54, 22, 0.08);
+          color: #8f1d16;
+          font-size: 0.94rem;
+          line-height: 1.6;
+        }
+
         .give-actions {
           display: flex;
           justify-content: flex-start;
+        }
+
+        .give-actions button[disabled] {
+          opacity: 0.72;
+          cursor: progress;
         }
 
         @media (max-width: 980px) {
@@ -470,6 +719,8 @@ const Give = () => {
 
           .give-field--full,
           .give-checkbox,
+          .give-checkbox__error,
+          .give-status,
           .give-actions {
             grid-column: auto;
           }
