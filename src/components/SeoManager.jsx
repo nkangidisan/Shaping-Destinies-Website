@@ -3,7 +3,9 @@ import { useLocation } from 'react-router-dom'
 import {
   DEFAULT_OG_IMAGE,
   DEFAULT_SITE_URL,
+  MAIN_NAVIGATION,
   ORGANIZATION_DATA,
+  PRIMARY_KEYWORDS,
   SITE_NAME,
   getSeoEntry,
 } from '../seo/routes'
@@ -77,12 +79,17 @@ function buildOrganizationSchema(origin) {
     '@context': 'https://schema.org',
     '@type': 'Church',
     name: ORGANIZATION_DATA.name,
+    alternateName: ORGANIZATION_DATA.alternateName,
+    description: ORGANIZATION_DATA.description,
     url: origin,
     logo: buildAbsoluteUrl(origin, '/2024/08/icon.png'),
     image: buildAbsoluteUrl(origin, DEFAULT_OG_IMAGE),
     telephone: ORGANIZATION_DATA.telephone,
     email: ORGANIZATION_DATA.email,
     address: ORGANIZATION_DATA.address,
+    founder: ORGANIZATION_DATA.founder,
+    areaServed: ORGANIZATION_DATA.areaServed,
+    keywords: ORGANIZATION_DATA.keywords,
     sameAs: ORGANIZATION_DATA.sameAs,
   }
 }
@@ -94,6 +101,13 @@ function buildWebsiteSchema(origin) {
     name: SITE_NAME,
     url: origin,
     inLanguage: 'en',
+    description: ORGANIZATION_DATA.description,
+    keywords: PRIMARY_KEYWORDS.join(', '),
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: `${origin}/search?q={search_term_string}`,
+      'query-input': 'required name=search_term_string',
+    },
   }
 }
 
@@ -105,11 +119,46 @@ function buildWebPageSchema(origin, seo, canonicalUrl, imageUrl) {
     description: seo.description,
     url: canonicalUrl,
     image: imageUrl,
+    primaryImageOfPage: {
+      '@type': 'ImageObject',
+      url: imageUrl,
+      caption: seo.imageAlt || seo.title,
+    },
     inLanguage: 'en',
+    keywords: seo.keywords?.join(', ') || PRIMARY_KEYWORDS.join(', '),
     isPartOf: {
       '@type': 'WebSite',
       name: SITE_NAME,
       url: origin,
+    },
+  }
+}
+
+function buildNavigationSchema(origin) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Wonder Christian Centre primary navigation',
+    itemListElement: MAIN_NAVIGATION.map((item, index) => ({
+      '@type': 'SiteNavigationElement',
+      position: index + 1,
+      name: item.name,
+      url: buildAbsoluteUrl(origin, item.path),
+    })),
+  }
+}
+
+function buildImageSchema(imageUrl, seo) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ImageObject',
+    contentUrl: imageUrl,
+    url: imageUrl,
+    caption: seo.imageAlt || seo.title,
+    representativeOfPage: true,
+    creator: {
+      '@type': 'Organization',
+      name: SITE_NAME,
     },
   }
 }
@@ -148,9 +197,33 @@ const SeoManager = () => {
       name: 'description',
       content: seo.description,
     })
+    ensureMeta('meta[name="author"]', {
+      name: 'author',
+      content: 'Wonder Christian Centre',
+    })
+    ensureMeta('meta[name="publisher"]', {
+      name: 'publisher',
+      content: 'Wonder Christian Centre',
+    })
+    ensureMeta('meta[name="application-name"]', {
+      name: 'application-name',
+      content: SITE_NAME,
+    })
+    ensureMeta('meta[name="category"]', {
+      name: 'category',
+      content: 'Church, Christian Ministry, Faith Community, Outreach',
+    })
     ensureMeta('meta[name="robots"]', {
       name: 'robots',
-      content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+      content: seo.robots || 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+    })
+    ensureMeta('meta[name="googlebot"]', {
+      name: 'googlebot',
+      content: seo.robots || 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+    })
+    ensureMeta('meta[name="bingbot"]', {
+      name: 'bingbot',
+      content: seo.robots || 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
     })
     ensureMeta('meta[name="keywords"]', {
       name: 'keywords',
@@ -163,6 +236,10 @@ const SeoManager = () => {
     ensureMeta('meta[property="og:site_name"]', {
       property: 'og:site_name',
       content: SITE_NAME,
+    })
+    ensureMeta('meta[property="og:locale"]', {
+      property: 'og:locale',
+      content: 'en_UG',
     })
     ensureMeta('meta[property="og:title"]', {
       property: 'og:title',
@@ -180,6 +257,10 @@ const SeoManager = () => {
       property: 'og:image',
       content: imageUrl,
     })
+    ensureMeta('meta[property="og:image:alt"]', {
+      property: 'og:image:alt',
+      content: seo.imageAlt || seo.title,
+    })
     ensureMeta('meta[name="twitter:card"]', {
       name: 'twitter:card',
       content: 'summary_large_image',
@@ -196,9 +277,18 @@ const SeoManager = () => {
       name: 'twitter:image',
       content: imageUrl,
     })
+    ensureMeta('meta[name="twitter:image:alt"]', {
+      name: 'twitter:image:alt',
+      content: seo.imageAlt || seo.title,
+    })
 
     ensureLink('link[rel="canonical"]', {
       rel: 'canonical',
+      href: canonicalUrl,
+    })
+    ensureLink('link[rel="alternate"][hreflang="en"]', {
+      rel: 'alternate',
+      hreflang: 'en',
       href: canonicalUrl,
     })
 
@@ -206,6 +296,8 @@ const SeoManager = () => {
     ensureJsonLd('seo-website-schema', buildWebsiteSchema(origin))
     ensureJsonLd('seo-page-schema', buildWebPageSchema(origin, seo, canonicalUrl, imageUrl))
     ensureJsonLd('seo-breadcrumb-schema', buildBreadcrumbSchema(origin, seo.breadcrumbs || []))
+    ensureJsonLd('seo-navigation-schema', buildNavigationSchema(origin))
+    ensureJsonLd('seo-image-schema', buildImageSchema(imageUrl, seo))
 
     const existingFaq = document.head.querySelector('#seo-faq-schema')
 

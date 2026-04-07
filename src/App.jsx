@@ -18,6 +18,7 @@ const Donate = lazy(() => import('./pages/Donate'))
 const Give = lazy(() => import('./pages/Give'))
 const Success = lazy(() => import('./pages/Success'))
 const Cancel = lazy(() => import('./pages/Cancel'))
+const Search = lazy(() => import('./pages/Search'))
 const Gallery = lazy(() => import('./pages/Gallery'))
 const Contact = lazy(() => import('./pages/Contact'))
 const WomenOfDestiny = lazy(() => import('./pages/WomenOfDestiny'))
@@ -68,6 +69,7 @@ function App() {
               <Route path="/give" element={<Give />} />
               <Route path="/success" element={<Success />} />
               <Route path="/cancel" element={<Cancel />} />
+              <Route path="/search" element={<Search />} />
               <Route path="/gallery" element={<Gallery />} />
               <Route path="/women-of-destiny" element={<WomenOfDestiny />} />
               <Route path="/contact" element={<Contact />} />
