@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import { loadStripe } from '@stripe/stripe-js'
 import FaqSection from '../components/FaqSection'
 import { seoRouteMap } from '../seo/routes'
 import {
@@ -8,10 +7,6 @@ import {
   GIVING_TYPES,
   formatDonationAmount,
 } from '../data/givingOptions'
-
-const stripePromise = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
-  ? loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
-  : null
 
 const giveImages = [
   '/2024/09/MG_2977.jpg',
@@ -131,11 +126,6 @@ const Give = () => {
       return
     }
 
-    if (!stripePromise) {
-      setSubmitError('Card payments are not configured yet. Please try again shortly.')
-      return
-    }
-
     setIsSubmitting(true)
     setSubmitError('')
     setFieldErrors({})
@@ -164,17 +154,15 @@ const Give = () => {
         throw new Error(data.error || 'Unable to start checkout. Please try again.')
       }
 
-      const stripe = await stripePromise
-
-      if (!stripe) {
-        throw new Error('Stripe could not be initialized.')
+      if (!data.url || typeof data.url !== 'string') {
+        throw new Error('Checkout redirect URL was not returned.')
       }
 
-      const { error } = await stripe.redirectToCheckout({ sessionId: data.id })
-
-      if (error) {
-        throw new Error(error.message || 'Unable to redirect to checkout.')
+      if (!data.url.startsWith('https://')) {
+        throw new Error('Checkout redirect URL must use HTTPS.')
       }
+
+      window.location.href = data.url
     } catch (error) {
       setSubmitError(error.message || 'Something went wrong. Please try again.')
       setIsSubmitting(false)

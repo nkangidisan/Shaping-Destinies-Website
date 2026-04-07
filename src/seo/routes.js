@@ -361,6 +361,25 @@ export const seoRoutes = [
     ],
   },
   {
+    path: '/cancel',
+    title: 'Giving Canceled | Wonder Christian Centre',
+    description:
+      'Your donation checkout was canceled. You can return to the giving page anytime to continue supporting Wonder Christian Centre.',
+    keywords: [
+      'Wonder Christian Centre giving canceled',
+      'donation checkout canceled',
+      'return to giving page',
+    ],
+    image: '/2024/11/_MG_1017.jpg.jpeg',
+    type: 'WebPage',
+    changefreq: 'monthly',
+    priority: '0.2',
+    breadcrumbs: [
+      { name: 'Home', path: '/' },
+      { name: 'Giving Canceled', path: '/cancel' },
+    ],
+  },
+  {
     path: '/gallery',
     title: 'Wonder Christian Centre Gallery | Worship and Outreach',
     description:

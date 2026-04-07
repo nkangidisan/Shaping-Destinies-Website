@@ -6,6 +6,9 @@ import {
   toStripeUnitAmount,
 } from '../src/data/givingOptions.js'
 
+const SUCCESS_URL = 'https://www.shapingdestinies.com/success'
+const CANCEL_URL = 'https://www.shapingdestinies.com/cancel'
+
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY
 
 const stripe = stripeSecretKey
@@ -20,11 +23,7 @@ function sendJson(res, statusCode, payload) {
   res.end(JSON.stringify(payload))
 }
 
-function getOrigin(req) {
-  return req.headers.origin || `https://${req.headers.host}`
-}
-
-function parseRequestBody(req) {
+async function parseRequestBody(req) {
   if (typeof req.body === 'string') {
     return JSON.parse(req.body)
   }
@@ -33,7 +32,17 @@ function parseRequestBody(req) {
     return req.body
   }
 
-  return {}
+  const chunks = []
+
+  for await (const chunk of req) {
+    chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk))
+  }
+
+  if (chunks.length === 0) {
+    return {}
+  }
+
+  return JSON.parse(Buffer.concat(chunks).toString('utf8'))
 }
 
 export default async function handler(req, res) {
@@ -57,7 +66,7 @@ export default async function handler(req, res) {
       givingType,
       currency,
       amount,
-    } = parseRequestBody(req)
+    } = await parseRequestBody(req)
 
     const normalizedFields = {
       firstName: typeof firstName === 'string' ? firstName.trim() : '',
@@ -110,13 +119,12 @@ export default async function handler(req, res) {
       return sendJson(res, 400, { error: 'Unable to process the donation amount.' })
     }
 
-    const origin = getOrigin(req)
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       payment_method_types: ['card'],
       customer_email: normalizedFields.email,
-      success_url: `${origin}/success`,
-      cancel_url: `${origin}/give`,
+      success_url: SUCCESS_URL,
+      cancel_url: CANCEL_URL,
       line_items: [
         {
           quantity: 1,
@@ -138,7 +146,12 @@ export default async function handler(req, res) {
       },
     })
 
-    return sendJson(res, 200, { id: session.id })
+    if (!session.url) {
+      console.error('Stripe session was created without a redirect URL', session.id)
+      return sendJson(res, 500, { error: 'Unable to start checkout. Please try again.' })
+    }
+
+    return sendJson(res, 200, { url: session.url })
   } catch (error) {
     console.error('Stripe checkout session creation failed:', error)
     return sendJson(res, 500, { error: 'Unable to create checkout session. Please try again.' })
